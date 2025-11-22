@@ -19,7 +19,7 @@ type UserType = {
   email: string,
 };
 
-export default function TestPage({userz, myImage, myBMW, myVideo}: {userz: UserType[]; myImage: string; myBMW: string; myVideo: string}) {
+export default function TestPage({ myImage, myBMW, myVideo}: { myImage: string; myBMW: string; myVideo: string}) {
   const users: UserType[] = [
     { id: 1, name: "Alice Nguyen", email: "alice.nguyen@example.com" },
     { id: 2, name: "Brandon Lee", email: "brandon.lee@example.com" },
