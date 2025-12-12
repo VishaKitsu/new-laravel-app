@@ -22,7 +22,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // $myImage64 = base64_encode($myImage);
     $myVideo = Storage::disk('r2')->url('retrowave (720p_25fps_H264-128kbit_AAC).mp4');
     return Inertia::render('admin/TestPage', [
-      'userz' => User::select('id', 'name', 'email')->get(),
       // 'myImage' => 'data:image/jpeg;base64,' . $myImage64,
       'myImage' => $test,
       'myVideo' => $myVideo,

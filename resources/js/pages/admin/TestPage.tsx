@@ -32,7 +32,6 @@ export default function TestPage({ myImage, myBMW, myVideo}: { myImage: string; 
     { id: 9, name: "Isabella Kim", email: "isabella.kim@example.com" },
     { id: 10, name: "Jack Wilson", email: "jack.wilson@example.com" },
   ];
-  // const users: UserType[] = userz;
 
   const [text, setText] = useState<string>("");
   const filteredUsers = useMemo(()=>{
