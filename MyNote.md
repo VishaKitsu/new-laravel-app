@@ -4,6 +4,13 @@
   - [How to use zod](#how-to-use-zod)
   - [Website to practice css flex box and grid](#website-to-practice-css-flex-box-and-grid)
   - [Useful artisan commands](#useful-artisan-commands)
+  - [What to do after cloning a laravel react project](#what-to-do-after-cloning-a-laravel-react-project)
+    - [Install PHP dependencies](#install-php-dependencies)
+    - [Install Javascript dependencies](#install-javascript-dependencies)
+    - [Create the .env file](#create-the-env-file)
+    - [Generate the application key](#generate-the-application-key)
+    - [Run migration for database](#run-migration-for-database)
+    - [Run it](#run-it)
 
 ## How to use route() in Laravel
 
@@ -108,4 +115,26 @@ type User = z.infer<typeof User>;
 ## Useful artisan commands
 1. To check all the routes: `php artisan route:list`
 2. To create a new controller: `php artisan make:controller ExampleController` <br>or with CRUD methods built-in: `php artisan make:controller ExampleController --resource`
-3. 
+
+## What to do after cloning a laravel react project
+### Install PHP dependencies
+Make sure you have PHP, Composer, and extensions required by Laravel.
+
+    composer install
+### Install Javascript dependencies
+    npm install
+### Create the .env file
+the best way is to copy paste the .env file from original.
+### Generate the application key
+    php artisan key:generate
+
+then paste the key in the .env file
+### Run migration for database
+    php artisan migrate
+
+You should just copy paste from the original.
+### Run it
+If you use herd, just run
+```bash
+npm run dev
+```

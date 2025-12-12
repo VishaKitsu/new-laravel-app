@@ -8,7 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 
 Route::get('/', function () {
-  return Inertia::render('Homer');
+  return Inertia::render('welcome');
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
