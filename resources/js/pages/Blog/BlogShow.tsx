@@ -5,6 +5,7 @@ import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import { Toaster } from 'react-hot-toast';
 import AppHeaderLayout from '@/layouts/app/app-header-layout';
+import CommentSection from './blog components/CommentSection';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -30,11 +31,7 @@ type PostType = {
   url: string;
 };
 
-export default function BlogShow({
-  post,
-}: {
-  post: PostType;
-}) {
+export default function BlogShow({ post, }: { post: PostType; }) {
   return (
     <AppHeaderLayout breadcrumbs={breadcrumbs}>
       <Head title={post.title} />
@@ -64,6 +61,7 @@ export default function BlogShow({
             <img src={post.url} className="mx-auto rounded-sm" alt="" />
           </div>
           <p>{post.description}</p>
+          <CommentSection />
         </div>
       </div>
     </AppHeaderLayout>
