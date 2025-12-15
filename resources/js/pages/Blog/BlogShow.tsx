@@ -62,8 +62,9 @@ export default function BlogShow({ post, }: { post: PostType; }) {
           <div className="mx-auto py-4">
             <img src={post.thumbnail_url} className="mx-auto rounded-sm" alt="" />
           </div>
-          <p>{post.description}</p>
-          <CommentSection />
+          <p className='mb-4'>{post.description}</p>
+          <Separator />
+          <CommentSection post_id={post.id} />
         </div>
       </div>
     </AppHeaderLayout>
