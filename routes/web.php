@@ -18,10 +18,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
   })->name('dashboard');
   Route::get('testpage', function () {
     // $myImage = Storage::disk('r2')->get('strange_cube.jpg');
-    $test = Storage::disk('r2')->url('strange_cube.jpg');
+    $test = Storage::url('strange_cube.jpg');
     // $myBMW = env('CLOUDFLARE_R2_URL') . '/2005-BMW-M3-GTR-Need-For-Speed-001-1080.jpg';
     // $myImage64 = base64_encode($myImage);
-    $myVideo = Storage::disk('r2')->url('retrowave (720p_25fps_H264-128kbit_AAC).mp4');
+    $myVideo = Storage::url('retrowave (720p_25fps_H264-128kbit_AAC).mp4');
     return Inertia::render('admin/TestPage', [
       // 'myImage' => 'data:image/jpeg;base64,' . $myImage64,
       'myImage' => $test,
