@@ -6,6 +6,7 @@ import { Head } from '@inertiajs/react';
 import { Toaster } from 'react-hot-toast';
 import AppHeaderLayout from '@/layouts/app/app-header-layout';
 import CommentSection from './blog components/CommentSection';
+import { Button } from '@/components/ui/button';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -23,6 +24,7 @@ type PostType = {
   user_id: number;
   category_id: number;
   thumbnail: string;
+  thumbnail_url: string;
   title: string;
   description: string;
   created_at: string;
@@ -58,9 +60,10 @@ export default function BlogShow({ post, }: { post: PostType; }) {
           </div>
           <Separator />
           <div className="mx-auto py-4">
-            <img src={post.url} className="mx-auto rounded-sm" alt="" />
+            <img src={post.thumbnail_url} className="mx-auto rounded-sm" alt="" />
           </div>
           <p>{post.description}</p>
+          <Button onClick={()=>console.log(post.thumbnail_url)}>test</Button>
           <CommentSection />
         </div>
       </div>

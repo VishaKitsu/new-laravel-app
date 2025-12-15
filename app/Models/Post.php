@@ -54,7 +54,7 @@ class Post extends Model
   {
     return Attribute::get(
       fn () => $this->thumbnail 
-        ? Storage::disk('r2')->url($this->thumbnail)
+        ? Storage::url($this->thumbnail)
         : null
     );
   }

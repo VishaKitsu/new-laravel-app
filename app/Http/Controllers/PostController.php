@@ -67,7 +67,7 @@ class PostController extends Controller
   public function show(string $id)
   {
     $post = Post::with(['category', 'user'])->where('slug', $id)->firstOrFail();
-    $post['url'] = Storage::url($post['thumbnail']);
+    // $post['url'] = Storage::url($post['thumbnail']);
     // $r2url = env('CLOUDFLARE_R2_URL');
 
     return Inertia::render('Blog/BlogShow', ['post' => $post]);

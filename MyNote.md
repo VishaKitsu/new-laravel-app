@@ -143,4 +143,41 @@ npm run dev
 
 ## About Model accessor
 A Laravel model accessor is **a method used to transform an Eloquent attribute's value when it is retrieved from the model**. They allow you to present a formatted value without changing the underlying data in the database. 
-For example, you could use an accessor to combine a user's `first_name` and `last_name` into a single `full_name` attribute. 
+For example, you could use an accessor to combine a user's `first_name` and `last_name` into a single `full_name` attribute.
+<br> for example:
+
+```php
+//accessor for thumbnail_url
+// Add 'thumbnail_url' to JSON/array responses
+protected $appends = ['thumbnail_url'];
+// Define the accessor
+protected function thumbnailUrl(): Attribute
+{
+  return Attribute::get(
+    fn () => $this->thumbnail 
+      ? Storage::url($this->thumbnail)
+      : null
+  );
+}
+```
+
+The method name `thumbnailUrl()` is what binds it to `thumbnail_url` 
+
+```php
+// Modern way - using Attribute class
+protected function firstName(): Attribute
+{
+    return Attribute::make(
+        get: fn ($value) => ucfirst($value),
+        set: fn ($value) => strtolower($value),
+    );
+}
+
+// Shorthand syntax (Laravel 9+)
+protected function lastName(): Attribute
+{
+    return new Attribute(
+        get: fn ($value) => strtoupper($value),
+    );
+}
+```
