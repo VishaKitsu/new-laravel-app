@@ -63,7 +63,6 @@ export default function BlogShow({ post, }: { post: PostType; }) {
             <img src={post.thumbnail_url} className="mx-auto rounded-sm" alt="" />
           </div>
           <p>{post.description}</p>
-          <Button onClick={()=>console.log(post.thumbnail_url)}>test</Button>
           <CommentSection />
         </div>
       </div>
