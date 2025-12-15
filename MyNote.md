@@ -11,6 +11,7 @@
     - [Generate the application key](#generate-the-application-key)
     - [Run migration for database](#run-migration-for-database)
     - [Run it](#run-it)
+  - [About Model accessor](#about-model-accessor)
 
 ## How to use route() in Laravel
 
@@ -139,3 +140,7 @@ If you use herd, just run
 ```bash
 npm run dev
 ```
+
+## About Model accessor
+A Laravel model accessor is **a method used to transform an Eloquent attribute's value when it is retrieved from the model**. They allow you to present a formatted value without changing the underlying data in the database. 
+For example, you could use an accessor to combine a user's `first_name` and `last_name` into a single `full_name` attribute. 

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Category;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class Post extends Model
@@ -42,5 +44,18 @@ class Post extends Model
     }
 
     return $slug;
+  }
+
+  //accessor for thumbnail_url
+  // Add 'thumbnail_url' to JSON/array responses
+  protected $appends = ['thumbnail_url'];
+  // Define the accessor
+  protected function thumbnailUrl(): Attribute
+  {
+    return Attribute::get(
+      fn () => $this->thumbnail 
+        ? Storage::disk('r2')->url($this->thumbnail)
+        : null
+    );
   }
 }

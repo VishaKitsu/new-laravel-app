@@ -17,8 +17,7 @@ class PostController extends Controller
   public function index()
   {
     $posts = Post::with(['category', 'user'])->get();
-    $r2url = env('CLOUDFLARE_R2_URL');
-    return Inertia::render('Blog', ['posts' => $posts, 'r2url' => $r2url]);
+    return Inertia::render('Blog', ['posts' => $posts]);
   }
 
   /**

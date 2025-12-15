@@ -21,6 +21,7 @@ type PostType = {
   user_id: number,
   category_id: number,
   thumbnail: string,
+  thumbnail_url: string,
   title: string,
   description: string,
   created_at: string,
@@ -29,7 +30,7 @@ type PostType = {
   user: { name: string, },
 };
 
-export default function Blog({ posts, r2url }: { posts: PostType[]; r2url: string }) {
+export default function Blog({ posts }: { posts: PostType[] }) {
   return (
     <AppHeaderLayout breadcrumbs={breadcrumbs}>
       <Head title="Blog" />
@@ -43,7 +44,7 @@ export default function Blog({ posts, r2url }: { posts: PostType[]; r2url: strin
         </div>
         {posts.map(post => (
           <Link key={post.id} href={PostController.show(post.slug)} className='flex border p-4 group transition shadow-md hover:shadow-blue-100 hover:shadow-lg hover:cursor-default'>
-            <img src={r2url + '/' + post.thumbnail} className='aspect-video object-cover w-[200px] group-hover:scale-110 transition hover:cursor-pointer' alt="" />
+            <img src={post.thumbnail_url} className='aspect-video object-cover w-[200px] group-hover:scale-110 transition hover:cursor-pointer' alt="" />
             <div className='flex flex-col mx-8'>
               <h2 className=' text-2xl font-extrabold tracking-tight text-pretty text-gray-900 hover:cursor-pointer'>{post.title}</h2>
               <div className='text-gray-600 mt-2 flex'>
@@ -72,6 +73,9 @@ export default function Blog({ posts, r2url }: { posts: PostType[]; r2url: strin
               <div className='mt-2'>
                 <Button variant={'destructive'} className='cursor-pointer' asChild>
                   <Link href={PostController.destroy(post.id)} onSuccess={()=>toast.success("Post deleted successfully.")}>Delete</Link>
+                </Button>
+                <Button onClick={()=>console.log(post.thumbnail_url)}>
+                  Test
                 </Button>
               </div>
             </div>
