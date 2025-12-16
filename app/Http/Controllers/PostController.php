@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -67,10 +68,11 @@ class PostController extends Controller
   public function show(string $id)
   {
     $post = Post::with(['category', 'user'])->where('slug', $id)->firstOrFail();
+    $comments = Comment::where('post_id', $post->id)->latest()->get();
     // $post['url'] = Storage::url($post['thumbnail']);
     // $r2url = env('CLOUDFLARE_R2_URL');
 
-    return Inertia::render('Blog/BlogShow', ['post' => $post]);
+    return Inertia::render('Blog/BlogShow', ['post' => $post, 'comments' => $comments]);
   }
 
   /**
