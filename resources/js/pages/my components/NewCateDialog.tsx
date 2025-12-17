@@ -19,10 +19,16 @@ function NewCateDialog() {
   const [newCate, setNewCate] = useState<string>("");
   const [open, setOpen] = useState(false);
   const handleNewCate = () => {
-    router.post(CategoryController.store().url, {name: newCate});
-    setOpen(false);
-    setNewCate("");
-    toast.success("Category created successfully.");
+    router.post(CategoryController.store().url, {name: newCate},{
+      onSuccess: () => {
+        setOpen(false);
+        setNewCate("");
+        toast.success("Category created successfully.");
+      },
+      onError: () => {
+        toast.error("Duplicate category.");
+      }
+    });
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>

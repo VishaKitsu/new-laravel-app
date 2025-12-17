@@ -2,7 +2,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { useState } from "react";
 import { router, usePage } from "@inertiajs/react";
-import CommentController from "@/actions/App/Http/Controllers/CommentController";
+import CommentController, { store } from "@/actions/App/Http/Controllers/CommentController";
 import toast from 'react-hot-toast';
 
 type CommentType = {
@@ -23,7 +23,8 @@ function CommentSection({ post_id }: { post_id: number }) {
     }
     else {
       router.post(
-        CommentController.store().url, 
+        // CommentController.store().url, or like this below
+        store(),
         {post_id: post_id, comment: comment}, 
         {
           onSuccess: () => {
