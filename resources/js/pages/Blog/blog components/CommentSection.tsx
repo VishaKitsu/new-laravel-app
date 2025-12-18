@@ -2,7 +2,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { useState } from "react";
 import { router, usePage } from "@inertiajs/react";
-import CommentController, { store } from "@/actions/App/Http/Controllers/CommentController";
+import CommentController, { store, destroy } from "@/actions/App/Http/Controllers/CommentController";
 import toast from 'react-hot-toast';
 
 type CommentType = {
@@ -39,6 +39,14 @@ function CommentSection({ post_id }: { post_id: number }) {
     }
   };
 
+  const handleDeleteC = (id: string) => {
+    router.delete(destroy(id),{
+      onSuccess: () => toast.success("Comment deleted successfully."),
+      onError: () => toast.error("Error"),
+      preserveScroll: true,
+    });
+  }
+
   return (
     <div className="flex flex-col gap-2 mt-4">
       <div className="flex gap-4">
@@ -55,7 +63,7 @@ function CommentSection({ post_id }: { post_id: number }) {
         {comments.map(c=>(
           <div className="flex gap-4 mb-5" key={c.id}>  
             <img className="h-12 rounded-full" src="https://placehold.co/300x300" alt="" />
-            <div className="flex flex-col">
+            <div className="flex flex-col w-full">
               <div className="mb-1 flex gap-4">
                 <span className="font-bold">
                   Username
@@ -69,6 +77,7 @@ function CommentSection({ post_id }: { post_id: number }) {
                     minute: '2-digit'
                   })}
                 </span>
+                <Button className="ml-auto self-end" size={"sm"} variant={"destructive"} onClick={()=>handleDeleteC(c.id.toLocaleString())}>Delete</Button>
               </div>
               <div>
                 {c.comment}

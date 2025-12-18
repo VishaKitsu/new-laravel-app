@@ -119,6 +119,7 @@ type User = z.infer<typeof User>;
 1. To check all the routes: `php artisan route:list`
 2. To create a new controller: `php artisan make:controller ExampleController` <br>or with CRUD methods built-in: `php artisan make:controller ExampleController --resource`
 3. To create a new Model: `php artisan make:model Model` the Model name must match a table's singular name like posts table => Post (model name)
+4. To create a new migration file: `php artisan make:migration create_[table name with plural]_table` the table name must be plural.
 
 ## What to do after cloning a laravel react project
 ### Install PHP dependencies

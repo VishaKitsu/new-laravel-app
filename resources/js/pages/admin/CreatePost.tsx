@@ -11,7 +11,8 @@ import { LoaderCircle } from 'lucide-react';
 import toast, { Toaster } from 'react-hot-toast';
 import NewCateDialog from '../my components/NewCateDialog';
 import CategoryCombo from '../my components/CategoryCombo';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import { Editor } from '@tinymce/tinymce-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -31,6 +32,12 @@ type CategoryType = {
 
 export default function CreatePost({ categories } : { categories : CategoryType[] }) {
 
+  const editorRef = useRef<any>(null);
+    const log = () => {
+    if (editorRef.current) {
+      console.log(editorRef.current.getContent());
+    }
+  };
   const [selectedCate, setSelectedCate] = useState<number>(0);
 
   return (
@@ -83,6 +90,29 @@ export default function CreatePost({ categories } : { categories : CategoryType[
                 <Textarea id='description' placeholder='Write your description here' name='description' required />
                 <InputError message={errors.description} />
               </div>
+              <Editor
+                apiKey='chk9svw7bt5sttksx1fgd0h0ecx77lcyg8y97siirdprxirp'
+                onInit={ (_evt, editor) => editorRef.current = editor }
+                initialValue="<p>This is the initial content of the editor.</p>"
+                init={{
+                  height: 500,
+                  menubar: true,
+                  plugins: [
+                    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                    'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                    'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
+                  ],
+                  toolbar: 'undo redo | blocks | ' +
+                    'bold italic forecolor | alignleft aligncenter ' +
+                    'alignright alignjustify | bullist numlist outdent indent | ' +
+                    'image |' +
+                    'removeformat | help',
+                  content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+                  images_file_types: 'jpg,svg,webp',
+                  images_upload_url: '/api/upload-image',
+              }}
+            />
+            <button onClick={log}>Log editor content</button>
 
 
               <Button
