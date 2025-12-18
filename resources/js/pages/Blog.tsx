@@ -74,9 +74,9 @@ export default function Blog({ posts }: { posts: PostType[] }) {
                 <Button variant={'destructive'} className='cursor-pointer' asChild>
                   <Link href={PostController.destroy(post.id)} onSuccess={()=>toast.success("Post deleted successfully.")}>Delete</Link>
                 </Button>
-                <Button onClick={()=>console.log(post.thumbnail_url)}>
+                {/* <Button onClick={()=>console.log(post.thumbnail_url)}>
                   Test
-                </Button>
+                </Button> */}
               </div>
             </div>
           </Link>

@@ -5,6 +5,7 @@ import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import { Toaster } from 'react-hot-toast';
 import AppHeaderLayout from '@/layouts/app/app-header-layout';
+import { AppHeader } from '@/components/app-header';
 import CommentSection from './blog components/CommentSection';
 import { Button } from '@/components/ui/button';
 
@@ -35,7 +36,9 @@ type PostType = {
 
 export default function BlogShow({ post, }: { post: PostType; }) {
   return (
-    <AppHeaderLayout breadcrumbs={breadcrumbs}>
+    // <AppHeaderLayout breadcrumbs={breadcrumbs}>
+    <div>
+      <AppHeader breadcrumbs={breadcrumbs} />
       <Head title={post.title} />
       <div>
         <Toaster />
@@ -67,6 +70,7 @@ export default function BlogShow({ post, }: { post: PostType; }) {
           <CommentSection post_id={post.id} />
         </div>
       </div>
-    </AppHeaderLayout>
+    </div>
+    // </AppHeaderLayout>
   );
 }
