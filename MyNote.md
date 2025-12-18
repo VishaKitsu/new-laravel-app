@@ -12,6 +12,8 @@
     - [Run migration for database](#run-migration-for-database)
     - [Run it](#run-it)
   - [About Model accessor](#about-model-accessor)
+  - [About Inertia's manual visit and manual form submissions](#about-inertias-manual-visit-and-manual-form-submissions)
+    - [With Wayfinder](#with-wayfinder)
 
 ## How to use route() in Laravel
 
@@ -180,4 +182,79 @@ protected function lastName(): Attribute
         get: fn ($value) => strtoupper($value),
     );
 }
+```
+
+## About Inertia's manual visit and manual form submissions
+
+it’s also possible to manually make Inertia visits / requests programmatically via JavaScript. This is accomplished via the `router.visit()` method.
+
+```tsx
+import { router } from '@inertiajs/react'
+
+router.visit(url, {
+    method: 'get',
+    data: {},
+    replace: false,
+    preserveState: false,
+    preserveScroll: false,
+    only: [],
+    except: [],
+    headers: {},
+    errorBag: null,
+    forceFormData: false,
+    queryStringArrayFormat: 'brackets',
+    async: false,
+    showProgress: true,
+    fresh: false,
+    reset: [],
+    preserveUrl: false,
+    prefetch: false,
+    viewTransition: false,
+    onCancelToken: cancelToken => {},
+    onCancel: () => {},
+    onBefore: visit => {},
+    onStart: visit => {},
+    onProgress: progress => {},
+    onSuccess: page => {},
+    onError: errors => {},
+    onFinish: visit => {},
+    onPrefetching: () => {},
+    onPrefetched: () => {},
+})
+```
+
+However, it’s generally more convenient to use one of Inertia’s shortcut request methods. These methods share all the same options as `router.visit()`.
+
+```tsx
+import { router } from '@inertiajs/react'
+
+router.get(url, data, options)
+router.post(url, data, options)
+router.put(url, data, options)
+router.patch(url, data, options)
+router.delete(url, options)
+router.reload(options) // Uses the current URL
+```
+
+### With Wayfinder
+When using Wayfinder, you can pass the resulting object directly to any router method. The router will infer the HTTP method and URL from the Wayfinder object.
+
+```tsx
+import { router } from '@inertiajs/react'
+import { show } from 'App/Http/Controllers/UserController'
+
+router.visit(show(1))
+router.post(store())
+router.delete(destroy(1))
+```
+
+For convenience, the `get()`, `post()`, `put()`, and `patch()`methods all accept data as their second argument.
+
+```tsx
+import { router } from '@inertiajs/react'
+
+router.post('/users', {
+    name: 'John Doe',
+    email: 'john.doe@example.com',
+})
 ```
