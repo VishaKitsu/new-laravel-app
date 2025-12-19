@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Comment;
+use App\Models\Image;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -40,6 +41,7 @@ class PostController extends Controller
       'thumbnail' => 'required|image',
       'title' => 'required|string|max:255',
       'description' => 'required|string',
+      'content' => 'required|string',
     ]);
     
     $validated['user_id'] = Auth::id();
@@ -57,7 +59,11 @@ class PostController extends Controller
         // Save path in DB
         $validated['thumbnail'] = $path;
     }
-    Post::create($validated);
+
+    $post = Post::create($validated);
+    Image::where('post_id', null)
+      ->where('user_id', Auth::id())
+      ->update(['post_id' => $post->id]);
 
     return back()->with('success', 'Post created successfully');
   }

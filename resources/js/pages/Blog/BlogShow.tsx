@@ -26,6 +26,7 @@ type PostType = {
   thumbnail_url: string;
   title: string;
   description: string;
+  content: string;
   created_at: string;
   category: { name: string };
   user: { name: string };
@@ -62,7 +63,10 @@ export default function BlogShow({ post, }: { post: PostType; }) {
           <div className="mx-auto py-4">
             <img src={post.thumbnail_url} className="mx-auto rounded-sm" alt="" />
           </div>
-          <p className='mb-4'>{post.description}</p>
+          <p className='mb-4 text-gray-400'>{post.description}</p>
+          <div dangerouslySetInnerHTML={{ __html: post.content }}>
+
+          </div>
           <Separator />
           <CommentSection post_id={post.id} />
         </div>

@@ -33,7 +33,8 @@ type CategoryType = {
 export default function CreatePost({ categories } : { categories : CategoryType[] }) {
 
   const editorRef = useRef<any>(null);
-    const log = () => {
+  const log = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     if (editorRef.current) {
       console.log(editorRef.current.getContent());
     }
@@ -45,12 +46,15 @@ export default function CreatePost({ categories } : { categories : CategoryType[
       <Head title="Create Post" />
       <div><Toaster/></div>
       <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-        {/* <div className='border p-4 rounded-xl mb-4 bg-green-500'></div> */}
-        {/* <Button onClick={() => toast.success("Post saved successfully")}>click here</Button> */}
         <Form 
           {...PostController.store.form()}
-          transform={data => ({ ...data, category_id: selectedCate})}
+          transform={data => ({
+            ...data, 
+            category_id: selectedCate, 
+            content: editorRef.current?.getContent() ?? '',
+          })}
           onSuccess={() => toast.success('Post Created successfully.', { icon: "📰" })}
+          onError={() => toast.error('Oh no something is wrong.')}
           resetOnSuccess
         >
           {({ processing, errors }) => (
@@ -91,7 +95,7 @@ export default function CreatePost({ categories } : { categories : CategoryType[
               <Editor
                 apiKey='chk9svw7bt5sttksx1fgd0h0ecx77lcyg8y97siirdprxirp'
                 onInit={ (_evt, editor) => editorRef.current = editor }
-                initialValue="<p>This is the initial content of the editor.</p>"
+                initialValue="<p>Write your blog here.</p>"
                 init={{
                   height: 500,
                   menubar: true,
@@ -107,10 +111,10 @@ export default function CreatePost({ categories } : { categories : CategoryType[
                     'removeformat | help',
                   content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
                   images_file_types: 'jpg,svg,webp',
-                  images_upload_url: ``,
+                  images_upload_url: `/api/images/upload`,
               }}
             />
-            <button onClick={log}>Log editor content</button>
+            <Button onClick={log}>Log editor content</Button>
 
 
               <Button

@@ -35,7 +35,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::resource('blog', PostController::class);
 Route::resource('cate', CategoryController::class);
 Route::resource('comment', CommentController::class);
-Route::post('/posts/{post}/images', [ImageController::class, 'store']);
+Route::post('/images/upload', [ImageController::class, 'store']);
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
