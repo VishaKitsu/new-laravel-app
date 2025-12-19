@@ -77,10 +77,8 @@ export default function CreatePost({ categories } : { categories : CategoryType[
                   </div>
                   <InputError message={errors.category_id} />
                 </div>
-                {/* <div>
-                </div> */}
                 <div className='flex flex-col gap-2'>
-                  <Label htmlFor="thumbnail">Picture</Label>
+                  <Label htmlFor="thumbnail">Thumbnail</Label>
                   <Input id="thumbnail" type="file" name='thumbnail' accept="image/*" />
                   <InputError message={errors.thumbnail} />
                 </div>
@@ -109,7 +107,7 @@ export default function CreatePost({ categories } : { categories : CategoryType[
                     'removeformat | help',
                   content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
                   images_file_types: 'jpg,svg,webp',
-                  images_upload_url: '/api/upload-image',
+                  images_upload_url: ``,
               }}
             />
             <button onClick={log}>Log editor content</button>

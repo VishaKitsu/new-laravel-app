@@ -65,9 +65,9 @@ class PostController extends Controller
   /**
    * Display the specified resource.
    */
-  public function show(string $id)
+  public function show(string $slug)
   {
-    $post = Post::with(['category', 'user'])->where('slug', $id)->firstOrFail();
+    $post = Post::with(['category', 'user'])->where('slug', $slug)->firstOrFail();
     $comments = Comment::where('post_id', $post->id)->latest()->get();
     // $post['url'] = Storage::url($post['thumbnail']);
     // $r2url = env('CLOUDFLARE_R2_URL');

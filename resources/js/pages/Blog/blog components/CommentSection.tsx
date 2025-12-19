@@ -2,7 +2,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { useState } from "react";
 import { router, usePage } from "@inertiajs/react";
-import CommentController, { store, destroy } from "@/actions/App/Http/Controllers/CommentController";
+import { store, destroy } from "@/actions/App/Http/Controllers/CommentController";
 import toast from 'react-hot-toast';
 
 type CommentType = {
@@ -17,7 +17,6 @@ function CommentSection({ post_id }: { post_id: number }) {
   const [comment, setComment] = useState("");
 
   const handleSubmit = () => {
-    console.log(comment);
     if (comment === ""){
       toast.error("please enter some comments first.");
     }
