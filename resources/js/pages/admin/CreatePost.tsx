@@ -92,31 +92,33 @@ export default function CreatePost({ categories } : { categories : CategoryType[
                 <Textarea id='description' placeholder='Write your description here' name='description' required />
                 <InputError message={errors.description} />
               </div>
-              <Editor
-                apiKey='chk9svw7bt5sttksx1fgd0h0ecx77lcyg8y97siirdprxirp'
-                onInit={ (_evt, editor) => editorRef.current = editor }
-                initialValue="<p>Write your blog here.</p>"
-                init={{
-                  height: 500,
-                  menubar: true,
-                  plugins: [
-                    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-                    'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                    'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
-                  ],
-                  toolbar: 'undo redo | blocks | ' +
-                    'bold italic forecolor | alignleft aligncenter ' +
-                    'alignright alignjustify | bullist numlist outdent indent | ' +
-                    'image |' +
-                    'removeformat | help',
-                  content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
-                  images_file_types: 'jpg,svg,webp',
-                  images_upload_url: `/api/images/upload`,
-              }}
-            />
-            <Button onClick={log}>Log editor content</Button>
-
-
+              <div className='grid gap-2'>
+                <Label>Content</Label>
+                <Editor
+                  apiKey='chk9svw7bt5sttksx1fgd0h0ecx77lcyg8y97siirdprxirp'
+                  onInit={ (_evt, editor) => editorRef.current = editor }
+                  initialValue="<p>Write your blog here.</p>"
+                  init={{
+                    height: 500,
+                    menubar: true,
+                    plugins: [
+                      'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                      'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                      'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount', 'paste'
+                    ],
+                    toolbar: 'undo redo | blocks | ' +
+                      'bold italic forecolor | alignleft aligncenter ' +
+                      'alignright alignjustify | bullist numlist outdent indent | ' +
+                      'image |' +
+                      'removeformat | help',
+                    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+                    images_upload_url: `/images/upload`,
+                    images_file_types: 'jpg,svg,webp',
+                    
+                  }}
+                />
+              </div>
+            {/* <Button onClick={log}>Log editor content</Button> */}
               <Button
                 type="submit"
                 className="mt-4 w-full"

@@ -103,11 +103,16 @@ class PostController extends Controller
   public function destroy(string $id)
   {
     $post = Post::findOrFail($id);
-    $path = $post->thumbnail;
-    $post->delete();
-    if ($path) {
-      Storage::disk('r2')->delete($path);
+    $thumbnailPath = $post->thumbnail;
+    $images = Image::where("post_id", $id)->get();
+    if ($thumbnailPath) {
+      Storage::disk('r2')->delete($thumbnailPath);
     }
+    foreach ($images as $image) {
+      Storage::disk('r2')->delete($image->path);
+    }
+
+    $post->delete();
 
     return back()->with('success', "Post successfully deleted.");
   }

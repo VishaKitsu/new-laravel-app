@@ -60,11 +60,11 @@ export default function BlogShow({ post, }: { post: PostType; }) {
             <div>Author: {post.user.name}</div>
           </div>
           <Separator />
-          <div className="mx-auto py-4">
+          {/* <div className="mx-auto py-4">
             <img src={post.thumbnail_url} className="mx-auto rounded-sm" alt="" />
-          </div>
-          <p className='mb-4 text-gray-400'>{post.description}</p>
-          <div dangerouslySetInnerHTML={{ __html: post.content }}>
+          </div> */}
+          {/* <p className='mb-4 text-gray-400'>{post.description}</p> */}
+          <div className='py-4' dangerouslySetInnerHTML={{ __html: post.content }}>
 
           </div>
           <Separator />

@@ -5,6 +5,11 @@ import { Head } from '@inertiajs/react';
 import { Input } from '@/components/ui/input';
 import { ChangeEvent, useMemo, useState } from 'react';
 import UserList from './UserList';
+import { Form } from '@inertiajs/react';
+import toast, { Toaster } from 'react-hot-toast';
+import { Label } from '@/components/ui/label';
+import InputError from '@/components/input-error';
+import { Button } from '@/components/ui/button';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -48,6 +53,7 @@ export default function TestPage({ myImage, myBMW, myVideo}: { myImage: string; 
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
       <Head title="Test Page" />
+      <div><Toaster/></div>
       <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
         <img src={myImage} alt="" className='w-[500px]'/>
         <img src={myBMW} alt="" className='w-[500px]'/>
@@ -60,6 +66,26 @@ export default function TestPage({ myImage, myBMW, myVideo}: { myImage: string; 
           <UserList userData={ text == "" ? users : filteredUsers} />
         </div>
         <button onClick={()=>console.log(myBMW)}>test</button>
+        <Form
+          action="/images/upload"
+          method="post"
+          onSuccess={()=>toast.success("success!!!!")}
+          onError={()=>toast.error("Erorororor!!!")}
+        >
+          {({errors, processing})=>(
+            <>
+            <div className='flex flex-col gap-2'>
+              <Label htmlFor="file">Thumbnail</Label>
+              <Input id="file" type="file" name='file' accept="image/*" />
+              <InputError message={errors.thumbnail} />
+            </div>
+            <Button type='submit' disabled={processing}>
+              submit
+            </Button>
+            </>
+          )}
+        </Form>
+
       </div>
     </AppLayout>
   );

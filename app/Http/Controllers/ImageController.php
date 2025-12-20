@@ -15,8 +15,14 @@ class ImageController extends Controller
     $request->validate([
       'file' => 'required|image|max:2048',
     ]);
+
+    $file = $request->file('file');
+    $path = 'blog-images/' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+    // Upload to R2
+    Storage::disk('r2')->put($path, $file->get());
     
-    $path = $request->file('file')->store('blog-images');
+    // $path = $request->file('file')->store('blog-images', 'r2');
 
     Image::create([
       'post_id' => null,
@@ -24,8 +30,8 @@ class ImageController extends Controller
       'path' => $path,
     ]);
 
-    return response()->json([
-      'location' => Storage::url($path),
-    ]);
+    $url = Storage::url($path);
+
+    return response()->json(['location' => $url]);
   }
 }
