@@ -74,11 +74,11 @@ class PostController extends Controller
   public function show(string $slug)
   {
     $post = Post::with(['category', 'user'])->where('slug', $slug)->firstOrFail();
-    $comments = Comment::where('post_id', $post->id)->latest()->get();
+    $comments = Comment::with(['user'])->where('post_id', $post->id)->latest()->get();
     // $post['url'] = Storage::url($post['thumbnail']);
     // $r2url = env('CLOUDFLARE_R2_URL');
 
-    return Inertia::render('Blog/BlogShow', ['post' => $post, 'comments' => $comments]);
+    return Inertia::render('Blog/BlogShow', ['post' => $post, 'comments' => $comments, 'currentUser'=> Auth::user()->name]);
   }
 
   /**

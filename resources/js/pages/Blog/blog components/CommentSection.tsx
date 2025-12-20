@@ -10,10 +10,11 @@ type CommentType = {
   post_id: number;
   comment: string;
   created_at: string;
+  user: { name: string };
 };
 
 function CommentSection({ post_id }: { post_id: number }) {
-  const { comments } = usePage<{ comments: CommentType[]; }>().props;
+  const { comments, currentUser } = usePage<{ comments: CommentType[]; currentUser: string }>().props;
   const [comment, setComment] = useState("");
 
   const handleSubmit = () => {
@@ -51,7 +52,7 @@ function CommentSection({ post_id }: { post_id: number }) {
       <div className="flex gap-4">
         <img className="h-12 rounded-full" src="https://placehold.co/300x300" alt="" />
         <div className="w-full">
-          <div className="mb-1 font-bold">Username</div>
+          <div className="mb-1 font-bold">{currentUser}</div>
           <Textarea value={comment} onChange={(e)=>setComment(e.target.value)} placeholder="Write your comment here." />
         </div>
       </div>
@@ -65,7 +66,7 @@ function CommentSection({ post_id }: { post_id: number }) {
             <div className="flex flex-col w-full">
               <div className="mb-1 flex gap-4">
                 <span className="font-bold">
-                  Username
+                  {c.user.name}
                 </span>
                 <span className="text-[0.8rem] pt-[4px] text-gray-500">
                   {new Date(c.created_at).toLocaleDateString('en-US', {
