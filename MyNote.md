@@ -14,6 +14,9 @@
   - [About Model accessor](#about-model-accessor)
   - [About Inertia's manual visit and manual form submissions](#about-inertias-manual-visit-and-manual-form-submissions)
     - [With Wayfinder](#with-wayfinder)
+  - [How to share development site with Laravel expose](#how-to-share-development-site-with-laravel-expose)
+    - [Get Expose token](#get-expose-token)
+    - [Run the command](#run-the-command)
 
 ## How to use route() in Laravel
 
@@ -259,3 +262,24 @@ router.post('/users', {
     email: 'john.doe@example.com',
 })
 ```
+
+## How to share development site with Laravel expose
+
+### Get Expose token
+by creating a expose account in their website
+### Run the command
+make sure the `npm run dev` is running and then in another command line run `herd share` or `expose share`. <br>
+And then it will give you the public URL for your site. <br>
+In the Vite config, write besides plugins. not in plugins:
+```tsx
+    server: {  
+        cors: {  
+            origin: [  
+                'https://YOURPUBLICURL.sharedwithexpose.com',
+                'https://new-laravel-app.test/' 
+                // this will break the site for your original development site
+            ],  
+        },  
+    },  
+```
+After that in .env file, comment out the APP_URL for later and write in `APP_URL=https://YOURPUBLICURL.sharedwithexpose.com/` and you're done!!
