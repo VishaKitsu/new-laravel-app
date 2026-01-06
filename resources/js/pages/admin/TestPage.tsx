@@ -5,10 +5,9 @@ import { Head } from '@inertiajs/react';
 import { Input } from '@/components/ui/input';
 import { ChangeEvent, useMemo, useState } from 'react';
 import UserList from './UserList';
-import { Form } from '@inertiajs/react';
-import toast, { Toaster } from 'react-hot-toast';
-import { Label } from '@/components/ui/label';
-import InputError from '@/components/input-error';
+import { Toaster } from 'react-hot-toast';
+// import { Label } from '@/components/ui/label';
+// import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -24,19 +23,20 @@ type UserType = {
   email: string,
 };
 
+const users: UserType[] = [
+  { id: 1, name: "Alice Nguyen", email: "alice.nguyen@example.com" },
+  { id: 2, name: "Brandon Lee", email: "brandon.lee@example.com" },
+  { id: 3, name: "Catherine Park", email: "catherine.park@example.com" },
+  { id: 4, name: "David Chen", email: "david.chen@example.com" },
+  { id: 5, name: "Ella Rodriguez", email: "ella.rodriguez@example.com" },
+  { id: 6, name: "Felix Johnson", email: "felix.johnson@example.com" },
+  { id: 7, name: "Grace Tan", email: "grace.tan@example.com" },
+  { id: 8, name: "Henry Patel", email: "henry.patel@example.com" },
+  { id: 9, name: "Isabella Kim", email: "isabella.kim@example.com" },
+  { id: 10, name: "Jack Wilson", email: "jack.wilson@example.com" },
+];
+
 export default function TestPage({ myImage, myBMW, myVideo}: { myImage: string; myBMW: string; myVideo: string}) {
-  const users: UserType[] = [
-    { id: 1, name: "Alice Nguyen", email: "alice.nguyen@example.com" },
-    { id: 2, name: "Brandon Lee", email: "brandon.lee@example.com" },
-    { id: 3, name: "Catherine Park", email: "catherine.park@example.com" },
-    { id: 4, name: "David Chen", email: "david.chen@example.com" },
-    { id: 5, name: "Ella Rodriguez", email: "ella.rodriguez@example.com" },
-    { id: 6, name: "Felix Johnson", email: "felix.johnson@example.com" },
-    { id: 7, name: "Grace Tan", email: "grace.tan@example.com" },
-    { id: 8, name: "Henry Patel", email: "henry.patel@example.com" },
-    { id: 9, name: "Isabella Kim", email: "isabella.kim@example.com" },
-    { id: 10, name: "Jack Wilson", email: "jack.wilson@example.com" },
-  ];
 
   const [text, setText] = useState<string>("");
   const filteredUsers = useMemo(()=>{
@@ -65,8 +65,8 @@ export default function TestPage({ myImage, myBMW, myVideo}: { myImage: string; 
           <Input type='text' placeholder='something' className='mb-1' onChange={handleChange} value={text}/>
           <UserList userData={ text == "" ? users : filteredUsers} />
         </div>
-        <button onClick={()=>console.log(myBMW)}>test</button>
-        <Form
+        <Button onClick={()=>console.log(myBMW)}>test</Button>
+        {/* <Form
           action="/images/upload"
           method="post"
           onSuccess={()=>toast.success("success!!!!")}
@@ -84,7 +84,7 @@ export default function TestPage({ myImage, myBMW, myVideo}: { myImage: string; 
             </Button>
             </>
           )}
-        </Form>
+        </Form> */}
 
       </div>
     </AppLayout>

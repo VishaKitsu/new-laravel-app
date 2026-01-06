@@ -1,7 +1,7 @@
 import PostController from '@/actions/App/Http/Controllers/PostController';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Form, Link } from '@inertiajs/react';
+import { Head, Form } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -33,12 +33,12 @@ type CategoryType = {
 export default function CreatePost({ categories } : { categories : CategoryType[] }) {
 
   const editorRef = useRef<any>(null);
-  const log = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    if (editorRef.current) {
-      console.log(editorRef.current.getContent());
-    }
-  };
+  // const log = (e: React.MouseEvent<HTMLButtonElement>) => {
+  //   e.preventDefault();
+  //   if (editorRef.current) {
+  //     console.log(editorRef.current.getContent());
+  //   }
+  // };
   const [selectedCate, setSelectedCate] = useState<number>(0);
 
   return (

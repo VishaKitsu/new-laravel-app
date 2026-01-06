@@ -1,8 +1,6 @@
 import PostController from '@/actions/App/Http/Controllers/PostController';
-import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import toast, { Toaster } from 'react-hot-toast';
 import { Badge } from '@/components/ui/badge';

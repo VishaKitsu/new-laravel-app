@@ -5,7 +5,6 @@ import { Head } from '@inertiajs/react';
 import { Toaster } from 'react-hot-toast';
 import { AppHeader } from '@/components/app-header';
 import CommentSection from './blog components/CommentSection';
-import { Button } from '@/components/ui/button';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
