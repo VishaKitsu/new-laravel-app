@@ -30,7 +30,7 @@ type CategoryType = {
   name: string,
 };
 
-export default function CreatePost({ categories } : { categories : CategoryType[] }) {
+export default function Create({ categories } : { categories : CategoryType[] }) {
 
   const editorRef = useRef<any>(null);
   // const log = (e: React.MouseEvent<HTMLButtonElement>) => {

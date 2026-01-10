@@ -6,12 +6,14 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 
 Route::get('/', function () {
   return Inertia::render('welcome');
 })->name('home');
+Route::get('/homer', function () {
+  return Inertia::render('Homer');
+})->name('test');
 // Route::get('/', [PostController::class, 'index'])->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {

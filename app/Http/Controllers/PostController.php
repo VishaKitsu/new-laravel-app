@@ -19,7 +19,7 @@ class PostController extends Controller
   public function index()
   {
     $posts = Post::with(['category', 'user'])->get();
-    return Inertia::render('Blog', ['posts' => $posts]);
+    return Inertia::render('Blog/Index', ['posts' => $posts]);
   }
 
   /**
@@ -28,7 +28,7 @@ class PostController extends Controller
   public function create()
   {
     $categories = Category::all();
-    return Inertia::render('admin/CreatePost', ['categories' => $categories]);
+    return Inertia::render('Blog/Create', ['categories' => $categories]);
   }
 
   /**
@@ -78,7 +78,7 @@ class PostController extends Controller
     // $post['url'] = Storage::url($post['thumbnail']);
     // $r2url = env('CLOUDFLARE_R2_URL');
 
-    return Inertia::render('Blog/BlogShow', ['post' => $post, 'comments' => $comments, 'currentUser'=> Auth::user()->name]);
+    return Inertia::render('Blog/Show', ['post' => $post, 'comments' => $comments, 'currentUser'=> Auth::user()->name]);
   }
 
   /**

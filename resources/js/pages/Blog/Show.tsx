@@ -32,7 +32,7 @@ type PostType = {
   url: string;
 };
 
-export default function BlogShow({ post, }: { post: PostType; }) {
+export default function Show({ post, }: { post: PostType; }) {
   return (
     <div>
       <AppHeader breadcrumbs={breadcrumbs} />

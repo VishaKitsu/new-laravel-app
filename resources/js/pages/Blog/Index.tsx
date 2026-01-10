@@ -28,7 +28,7 @@ type PostType = {
   user: { name: string, },
 };
 
-export default function Blog({ posts }: { posts: PostType[] }) {
+export default function Index({ posts }: { posts: PostType[] }) {
   return (
     <AppHeaderLayout breadcrumbs={breadcrumbs}>
       <Head title="Blog" />
