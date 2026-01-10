@@ -8,13 +8,15 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
 
-Route::get('/', function () {
-  return Inertia::render('welcome');
-})->name('home');
+// Route::get('/', function () {
+//   return Inertia::render('welcome');
+// })->name('home');
+
+Route::get('/', [PostController::class, 'index'])->name('home');
+
 Route::get('/homer', function () {
   return Inertia::render('Homer');
 })->name('test');
-// Route::get('/', [PostController::class, 'index'])->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
   Route::get('dashboard', function () {
@@ -34,7 +36,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
   })->name('testpage');
 });
 
-Route::resource('blog', PostController::class);
+Route::resource('blog', PostController::class)->except(['index']);
 Route::resource('cate', CategoryController::class);
 Route::resource('comment', CommentController::class);
 Route::post('/images/upload', [ImageController::class, 'store']);
