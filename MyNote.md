@@ -14,9 +14,11 @@
   - [About Model accessor](#about-model-accessor)
   - [About Inertia's manual visit and manual form submissions](#about-inertias-manual-visit-and-manual-form-submissions)
     - [With Wayfinder](#with-wayfinder)
-  - [How to share development site with Laravel expose](#how-to-share-development-site-with-laravel-expose)
+  - [How to share development site with Laravel expose (might not work)](#how-to-share-development-site-with-laravel-expose-might-not-work)
     - [Get Expose token](#get-expose-token)
     - [Run the command](#run-the-command)
+  - [How to enable API in laravel](#how-to-enable-api-in-laravel)
+  - [How to disable csrf protection for a route](#how-to-disable-csrf-protection-for-a-route)
 
 ## How to use route() in Laravel
 
@@ -263,7 +265,7 @@ router.post('/users', {
 })
 ```
 
-## How to share development site with Laravel expose
+## How to share development site with Laravel expose (might not work)
 
 ### Get Expose token
 by creating a expose account in their website
@@ -283,3 +285,25 @@ In the Vite config, write besides plugins. not in plugins:
     },  
 ```
 After that in .env file, comment out the APP_URL for later and write in `APP_URL=https://YOURPUBLICURL.sharedwithexpose.com/` and you're done!!
+
+## How to enable API in laravel
+create `api.php` in `routes` folder. Then in `bootstrap/app.php` add
+```php
+->withRouting(
+    web: __DIR__.'/../routes/web.php',
+    api: __DIR__.'/../routes/api.php',  //<---- add this here
+    commands: __DIR__.'/../routes/console.php',
+    health: '/up',
+)
+```
+
+## How to disable csrf protection for a route
+
+In `bootstrap/app.php` write
+```php
+->withMiddleware(function (Middleware $middleware) {
+    $middleware->encryptCookies(except: ['appearance', 'sidebar_state']);
+    $middleware->validateCsrfTokens(except: [  // add this code here
+      'images/upload',                         // <-- this is the route you want to disable csrf protection
+    ]);                                        //
+```
