@@ -3,6 +3,7 @@ import { SidebarTrigger } from '@/components/ui/sidebar';
 import { type BreadcrumbItem as BreadcrumbItemType } from '@/types';
 import { Link } from '@inertiajs/react';
 import { Button } from './ui/button';
+import { index } from '@/actions/App/Http/Controllers/PostController';
 
 export function AppSidebarHeader({
   breadcrumbs = [],
@@ -15,7 +16,7 @@ export function AppSidebarHeader({
         <SidebarTrigger className="-ml-1" />
         <Breadcrumbs breadcrumbs={breadcrumbs} />
         <Button variant={'outline'} className="ml-auto" asChild>
-          <Link>Home Page</Link>
+          <Link href={index.url()}>Home Page</Link>
         </Button>
       </div>
     </header>

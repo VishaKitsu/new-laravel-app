@@ -68,7 +68,7 @@ function CommentSection({ post_id }: { post_id: number }) {
                 <span className="font-bold">
                   {c.user.name}
                 </span>
-                <span className="text-[0.8rem] pt-[4px] text-gray-500">
+                <span className="text-[0.8rem] pt-1 text-gray-500">
                   {new Date(c.created_at).toLocaleDateString('en-US', {
                     year: 'numeric',
                     month: 'long',

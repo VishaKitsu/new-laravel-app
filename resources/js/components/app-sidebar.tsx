@@ -24,12 +24,12 @@ const mainNavItems: NavItem[] = [
     icon: LayoutGrid,
   },
   {
-    title: 'TestPage',
+    title: 'Test Page',
     href: testpage(),
     icon: FlaskConical,
   },
   {
-    title: 'BlogPosts',
+    title: 'Home Page',
     href: PostController.index(),
     icon: Newspaper,
   }
