@@ -19,6 +19,10 @@
     - [Run the command](#run-the-command)
   - [How to enable API in laravel](#how-to-enable-api-in-laravel)
   - [How to disable csrf protection for a route](#how-to-disable-csrf-protection-for-a-route)
+  - [How to deploy laravel project to InfinityFree (similar to namecheap)](#how-to-deploy-laravel-project-to-infinityfree-similar-to-namecheap)
+    - [Pre-Deployment (Local Machine)](#pre-deployment-local-machine)
+    - [Public folder configuration](#public-folder-configuration)
+    - [Run migration for database](#run-migration-for-database-1)
 
 ## How to use route() in Laravel
 
@@ -307,3 +311,58 @@ In `bootstrap/app.php` write
       'images/upload',                         // <-- this is the route you want to disable csrf protection
     ]);                                        //
 ```
+
+## How to deploy laravel project to InfinityFree (similar to namecheap)
+### Pre-Deployment (Local Machine)
+* **Compile Frontend Assets**: Run `npm run build`. This generates the necessary JavaScript and CSS in your `public/build` directory.
+* **Install PHP Dependencies**: Run `composer install --optimize-autoloader --no-dev`.
+* **Clear cache**: Run `php artisan optimize:clear`
+* **Modify .env file**: 
+  * change `APP_ENV=local` to `APP_ENV=production`
+  * change `APP_URL=https://yourwebsite.com` to your website you're about to deploy
+  * create a database in infinityfree and add the database information in env
+* **Runing php artisan manually**: Infinityfree doesn't have a terminal to run `php artisan` but you can bypass it by running manually in `web.php`. Just visit those routes and it will execute the code. example: 
+```php
+Route::get('/admin/view-clear', function () {
+    Artisan::call('view:clear');
+    return Artisan::output();
+});
+
+Route::get('/admin/optimize', function () {
+    $output = [];
+
+    Artisan::call('optimize:clear');
+    $output[] = Artisan::output();
+
+    Artisan::call('optimize');
+    $output[] = Artisan::output();
+
+    Artisan::call('view:cache');
+    $output[] = Artisan::output();
+
+    return implode("\n", $output);
+});
+// you have to write this code below in api.php to work
+// Route::get('/admin/migrate', function () {
+//    Artisan::call('migrate', [
+//        '--force' => true, // REQUIRED outside CLI
+//    ]);
+
+//    return nl2br(Artisan::output());
+// });
+```
+* **Zip the Project**: Compress your entire project directory into a `.zip` file, but exclude the `node_modules` folder to save space and time during upload. Then paste the zip and extract it in the `htdocs` folder.
+### Public folder configuration
+* Laravel have `index.php` inside the `public` folder, not the htdocs root folder and Infinityfree can't use it by default.
+* You have to create a `.htaccess` file in the root and write
+```
+RewriteEngine On
+RewriteRule (.*) /public/$1 [L]
+```
+now it works like a charm.
+### Run migration for database
+* After you write the `artisan migrate` in `api.php`, you have to go to `config/database.php` in the mysql part, change `'engine' => null,` to `'engine' => 'InnoDB',`.
+* Go to `app/Providers/AppServiceProvider.php` and in the `boot()` function write `Schema::defaultStringLength(191);` because Infinityfree database is old and the string primary key take too much space.
+* Then visit `/api/admin/migrate` to migrate the database.
+
+ALL DONE
