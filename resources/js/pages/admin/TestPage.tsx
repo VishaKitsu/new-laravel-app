@@ -55,8 +55,8 @@ export default function TestPage({ myImage, myBMW, myVideo}: { myImage: string; 
       <Head title="Test Page" />
       <div><Toaster/></div>
       <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-        <img src={myImage} alt="" className='w-[500px]'/>
-        <img src={myBMW} alt="" className='w-[500px]'/>
+        <img src={myImage} alt="" className='w-125'/>
+        <img src={import.meta.env.VITE_R2_URL + '2005-BMW-M3-GTR-Need-For-Speed-001-1080.jpg'} alt="" className='w-125'/>
         <video controls>
           {/* width="854" height="480" */}
             <source src={myVideo} type="video/mp4" />
