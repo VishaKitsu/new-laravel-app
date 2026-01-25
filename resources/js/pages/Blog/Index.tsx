@@ -3,8 +3,6 @@ import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import toast, { Toaster } from 'react-hot-toast';
-import { Badge } from '@/components/ui/badge';
-import { BadgeCheckIcon } from 'lucide-react';
 import AppHeaderLayout from '@/layouts/app/app-header-layout';
 import { Calendar } from 'lucide-react';
 
@@ -41,7 +39,7 @@ export default function Index({ posts }: { posts: PostType[] }) {
             <Link href={PostController.create().url}>Create Post</Link>
           </Button>
         </div>
-        <div className='grid grid-cols-3 gap-4'>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
           {posts.map(post => (
             <Link key={post.id} href={PostController.show(post.slug)} className='flex flex-col border p-4 group transition shadow-md hover:shadow-blue-100 hover:shadow-lg hover:cursor-default'>
               <img src={post.thumbnail_url} className='aspect-4/3 object-cover group-hover:opacity-90 transition hover:cursor-pointer' alt="Not available" />
