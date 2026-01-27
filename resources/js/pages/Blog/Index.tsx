@@ -41,7 +41,7 @@ export default function Index({ posts }: { posts: PostType[] }) {
         </div>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
           {posts.map(post => (
-            <Link key={post.id} href={PostController.show(post.slug)} className='flex flex-col border p-4 group transition shadow-md hover:shadow-blue-100 hover:shadow-lg hover:cursor-default'>
+            <Link key={post.id} href={PostController.show(post.slug)} className='flex flex-col rounded-md border p-4 group transition shadow-md hover:shadow-blue-100 hover:cursor-default'>
               <img src={post.thumbnail_url} className='aspect-4/3 object-cover group-hover:opacity-90 transition hover:cursor-pointer' alt="Not available" />
               <div className='flex flex-col'>
                 <h2 className=' text-2xl mt-4 mb-2 font-semibold tracking-tight text-pretty text-blue-400 hover:cursor-pointer'>{post.title}</h2>
@@ -65,7 +65,7 @@ export default function Index({ posts }: { posts: PostType[] }) {
                   </span>
                   <p>{post.description}</p>
                 </div>
-                <div className='mt-3 flex flex-row-reverse'>
+                <div className='flex justify-end mt-3'>
                   <Button variant={'destructive'} className='cursor-pointer' asChild>
                     <Link href={PostController.destroy(post.id)} onSuccess={()=>toast.success("Post deleted successfully.")}>Delete</Link>
                   </Button>

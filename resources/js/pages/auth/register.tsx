@@ -42,7 +42,7 @@ export default function Register() {
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="email">Email address</Label>
+                <Label htmlFor="email">Email address (don't use your real email and password)</Label>
                 <Input
                   id="email"
                   type="email"

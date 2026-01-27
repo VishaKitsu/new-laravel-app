@@ -4,6 +4,9 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\PostController;
+use App\Models\Post;
+use App\Models\User;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
@@ -12,15 +15,17 @@ use Illuminate\Support\Facades\Storage;
 //   return Inertia::render('welcome');
 // })->name('home');
 
-Route::get('/', [PostController::class, 'index'])->name('home');
 
 Route::get('/homer', function () {
   return Inertia::render('Homer');
 })->name('test');
 
 Route::middleware(['auth', 'verified'])->group(function () {
+  Route::get('/', [PostController::class, 'index'])->name('home');
   Route::get('dashboard', function () {
-    return Inertia::render('dashboard');
+    $postCount = Post::count();
+    $userCount = User::count();
+    return Inertia::render('Dashboard', ['postCount' => $postCount, 'userCount' => $userCount]);
   })->name('dashboard');
   Route::get('testpage', function () {
     // $myImage = Storage::disk('r2')->get('strange_cube.jpg');
@@ -40,6 +45,26 @@ Route::resource('blog', PostController::class)->except(['index']);
 Route::resource('cate', CategoryController::class);
 Route::resource('comment', CommentController::class);
 Route::post('/images/upload', [ImageController::class, 'store']);
+
+Route::get('/admin/view-clear', function () {
+    Artisan::call('view:clear');
+    return Artisan::output();
+})->name('artisan.viewclear');
+
+Route::get('/admin/optimize', function () {
+    $output = [];
+
+    Artisan::call('optimize:clear');
+    $output[] = Artisan::output();
+
+    Artisan::call('optimize');
+    $output[] = Artisan::output();
+
+    Artisan::call('view:cache');
+    $output[] = Artisan::output();
+
+    return implode("\n", $output);
+})->name('artisan.optimize');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

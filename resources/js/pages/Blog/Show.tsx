@@ -34,13 +34,13 @@ type PostType = {
 
 export default function Show({ post, }: { post: PostType; }) {
   return (
-    <div className=''>
+    <div className='min-h-screen flex flex-col'>
       <AppHeader breadcrumbs={breadcrumbs} />
       <Head title={post.title} />
       <div>
         <Toaster />
       </div>
-      <div className="flex h-screen flex-1 flex-col gap-4 overflow-x-clip p-4 bg-muted">
+      <div className="flex-1 gap-4 overflow-x-clip p-4 bg-muted">
         <div className="max-w-4xl w-full mx-auto p-11 border bg-white">
           <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight text-balance">
             {post.title}

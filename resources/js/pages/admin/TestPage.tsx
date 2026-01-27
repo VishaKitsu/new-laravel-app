@@ -62,7 +62,7 @@ export default function TestPage({ myImage, myBMW, myVideo}: { myImage: string; 
             <source src={myVideo} type="video/mp4" />
         </video>
         <div className='max-w-[720px] p-4 border rounded-xl'>
-          <Input type='text' placeholder='something' className='mb-1' onChange={handleChange} value={text}/>
+          <Input type='text' placeholder='Filter users' className='mb-1' onChange={handleChange} value={text}/>
           <UserList userData={ text == "" ? users : filteredUsers} />
         </div>
         <Button onClick={()=>console.log(myBMW)}>test</Button>

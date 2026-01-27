@@ -1,10 +1,19 @@
 <?php
 
-use App\Http\Controllers\ImageController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/user', function (Request $request) {
-//     return $request->user();
-// })->middleware('auth:sanctum');
+Route::get('/admin/migrate', function () {
+    Artisan::call('migrate', [
+        '--force' => true, // REQUIRED outside CLI
+    ]);
 
+    return nl2br(Artisan::output());
+});
+
+Route::get('/admin/migrate-rollback', function () {
+    Artisan::call('migrate:rollback', ['--force' => true,]);
+
+    return nl2br(Artisan::output());
+});
