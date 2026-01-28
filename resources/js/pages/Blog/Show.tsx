@@ -65,7 +65,7 @@ export default function Show({ post, }: { post: PostType; }) {
             <img src={post.thumbnail_url} className="mx-auto rounded-sm" alt="" />
           </div> */}
           {/* <p className='mb-4 text-gray-400'>{post.description}</p> */}
-          <div className='py-4 mx-auto prose' dangerouslySetInnerHTML={{ __html: post.content }}>
+          <div className='py-4 mx-auto prose dark:prose-invert' dangerouslySetInnerHTML={{ __html: post.content }}>
 
           </div>
           <Separator />

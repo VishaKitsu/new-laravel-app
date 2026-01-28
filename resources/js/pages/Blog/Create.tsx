@@ -107,6 +107,7 @@ export default function Create({ categories } : { categories : CategoryType[] })
                       'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount', 'paste'
                     ],
                     toolbar: 'undo redo | blocks | ' +
+                      'blockquote |' +
                       'bold italic forecolor | alignleft aligncenter ' +
                       'alignright alignjustify | bullist numlist outdent indent | ' +
                       'image |' +

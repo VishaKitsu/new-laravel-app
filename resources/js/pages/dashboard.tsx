@@ -4,6 +4,7 @@ import { dashboard } from '@/routes';
 import artisan from '@/routes/artisan';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
+import { create } from '@/actions/App/Http/Controllers/PostController';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -44,13 +45,19 @@ export default function Dashboard({
               </Button>
             </div>
           </div>
-          <div className="rounded-xl border p-6 shadow">
+          <div className="flex flex-col rounded-xl border p-6 shadow">
             <div className="mb-4 font-medium text-gray-500">
               Number of Posts
             </div>
             <div className="text-3xl font-semibold text-shadow-lg">
               {postCount}
             </div>
+            <Button
+              asChild
+              className="mt-auto bg-linear-to-b from-sky-300 to-sky-400 to-70% px-4 py-2 text-sm font-semibold text-sky-950 shadow-md ring inset-shadow-2xs ring-sky-500 inset-shadow-white/20 transition text-shadow-2xs text-shadow-sky-300 hover:to-100% dark:ring-sky-500/50"
+            >
+              <Link href={create()}>Create post</Link>
+            </Button>
           </div>
           <div className="rounded-xl border p-6 shadow">
             <div className="mb-4 font-medium text-gray-500">
