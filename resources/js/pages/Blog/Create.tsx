@@ -72,7 +72,7 @@ export default function Create({ categories } : { categories : CategoryType[] })
                 <InputError message={errors.title} />
               </div>
 
-              <div className='grid grid-cols-2 gap-2'>
+              <div className='grid grid-cols-1 lg:grid-cols-2 gap-2'>
                 <div className='flex flex-col gap-2'>
                   <Label>Category</Label>
                   <div className='flex gap-2'>
