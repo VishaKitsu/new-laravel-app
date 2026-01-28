@@ -41,9 +41,9 @@ export default function Index({ posts }: { posts: PostType[] }) {
         </div>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
           {posts.map(post => (
-            <Link key={post.id} href={PostController.show(post.slug)} className='flex flex-col rounded-md border p-4 group transition shadow-md hover:shadow-blue-100 hover:cursor-default'>
+            <Link key={post.id} href={PostController.show(post.slug)} className='h-146 flex flex-col rounded-md border p-4 group transition shadow-md hover:shadow-blue-100 hover:cursor-default'>
               <img src={post.thumbnail_url} className='aspect-4/3 object-cover group-hover:opacity-90 transition hover:cursor-pointer' alt="Not available" />
-              <div className='flex flex-col'>
+              <div className='flex flex-col flex-1'>
                 <h2 className=' text-2xl mt-4 mb-2 font-semibold tracking-tight text-pretty text-blue-400 hover:cursor-pointer'>{post.title}</h2>
                 <hr />
                 <div className='text-gray-600 mt-2 flex flex-col gap-1'>
@@ -63,15 +63,12 @@ export default function Index({ posts }: { posts: PostType[] }) {
                   <span className='font-bold'>
                     Posted by : <span className='font-normal'>{post.user?.name}</span> 
                   </span>
-                  <p>{post.description}</p>
+                  <p className='line-clamp-3'>{post.description}</p>
                 </div>
-                <div className='flex justify-end mt-3'>
+                <div className='flex justify-end mt-auto'>
                   <Button variant={'destructive'} className='cursor-pointer' asChild>
                     <Link href={PostController.destroy(post.id)} onSuccess={()=>toast.success("Post deleted successfully.")}>Delete</Link>
                   </Button>
-                  {/* <Button onClick={()=>console.log(post.thumbnail_url)}>
-                    Test
-                  </Button> */}
                 </div>
               </div>
             </Link>
