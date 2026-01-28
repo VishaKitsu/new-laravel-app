@@ -41,29 +41,31 @@ export default function Show({ post, }: { post: PostType; }) {
         <Toaster />
       </div>
       <div className="flex-1 gap-4 overflow-x-clip p-4 bg-muted">
-        <div className="max-w-4xl w-full mx-auto p-11 border bg-white">
-          <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight text-balance">
-            {post.title}
-          </h1>
-          <div className="flex justify-between py-4 text-muted-foreground">
-            <div>
-              {new Date(post.created_at).toLocaleDateString('en-US', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-              })}
+        <div className="lg:max-w-4xl w-full mx-auto px-6 pt-12 pb-6 ring-1 ring-gray-900/5 bg-white shadow-xl shadow-slate-700/10">
+          <div className='max-w-prose mx-auto'>
+            <h1 className="text-4xl font-extrabold tracking-tight">
+              {post.title}
+            </h1>
+            <div className="flex justify-between py-4 text-muted-foreground">
+              <div>
+                {new Date(post.created_at).toLocaleDateString('en-US', {
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit'
+                })}
+              </div>
+              <div>Author: {post.user.name}</div>
             </div>
-            <div>Author: {post.user.name}</div>
+            <Separator />
           </div>
-          <Separator />
           {/* <div className="mx-auto py-4">
             <img src={post.thumbnail_url} className="mx-auto rounded-sm" alt="" />
           </div> */}
           {/* <p className='mb-4 text-gray-400'>{post.description}</p> */}
-          <div className='py-4' dangerouslySetInnerHTML={{ __html: post.content }}>
+          <div className='py-4 mx-auto prose' dangerouslySetInnerHTML={{ __html: post.content }}>
 
           </div>
           <Separator />

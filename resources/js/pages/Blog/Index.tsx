@@ -32,7 +32,7 @@ export default function Index({ posts }: { posts: PostType[] }) {
     <AppHeaderLayout breadcrumbs={breadcrumbs}>
       <Head title="Blog" />
       <div><Toaster/></div>
-      <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto p-4">
+      <div className="flex h-full flex-col gap-4 overflow-x-auto p-4">
         <div>
           {/* <TextLink href={PostController.create().url}>Create Post</TextLink> */}
           <Button asChild>
