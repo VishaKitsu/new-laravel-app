@@ -1,14 +1,16 @@
 import AppLayout from '@/layouts/app-layout';
 import { testpage } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import { Input } from '@/components/ui/input';
-import { ChangeEvent, useMemo, useState } from 'react';
+import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import UserList from './UserList';
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 // import { Label } from '@/components/ui/label';
 // import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
+import { Link } from '@inertiajs/react';
+import { update } from '@/routes/blog';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -38,7 +40,16 @@ const users: UserType[] = [
 
 export default function TestPage({ myImage, myBMW, myVideo}: { myImage: string; myBMW: string; myVideo: string}) {
 
+
+  const page = usePage();
+  const { flash } = usePage();
   const [text, setText] = useState<string>("");
+
+  useEffect(() => {
+    if (flash.flashMessage) {
+      toast.success(flash.flashMessage)
+    }
+  }, [flash.flashMessage]);
   const filteredUsers = useMemo(()=>{
     return users.filter((user) => 
       user.name.toLowerCase().includes(text.toLowerCase())
@@ -61,11 +72,14 @@ export default function TestPage({ myImage, myBMW, myVideo}: { myImage: string; 
           {/* width="854" height="480" */}
             <source src={myVideo} type="video/mp4" />
         </video>
-        <div className='max-w-[720px] p-4 border rounded-xl'>
+        <div className='max-w-180 p-4 border rounded-xl'>
           <Input type='text' placeholder='Filter users' className='mb-1' onChange={handleChange} value={text}/>
           <UserList userData={ text == "" ? users : filteredUsers} />
         </div>
-        <Button onClick={()=>console.log(myBMW)}>test</Button>
+        <Button onClick={()=>console.log(page)}>test usepage</Button>
+        <Button asChild>
+          <Link href={update(1)}>Flash!</Link>
+        </Button>
         {/* <Form
           action="/images/upload"
           method="post"
@@ -85,7 +99,6 @@ export default function TestPage({ myImage, myBMW, myVideo}: { myImage: string; 
             </>
           )}
         </Form> */}
-
       </div>
     </AppLayout>
   );

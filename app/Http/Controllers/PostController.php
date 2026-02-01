@@ -94,7 +94,7 @@ class PostController extends Controller
    */
   public function update(Request $request, string $id)
   {
-      //
+    return Inertia::flash('flashMessage', 'HEyhye hey zbcx,vbz,mxncvb')->back();
   }
 
   /**
