@@ -51,7 +51,7 @@ function CategoryCombo({ categories, selectedCate, setCate } : WholePropType) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-50 justify-between"
         >
           {categories.find((c) => c.id === selectedCate)?.name || "Select category"}
           {/* {value != 0
@@ -60,7 +60,7 @@ function CategoryCombo({ categories, selectedCate, setCate } : WholePropType) {
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="w-50 p-0">
         <Command>
           <CommandInput placeholder="Search category..." className="h-9" />
           <CommandList>

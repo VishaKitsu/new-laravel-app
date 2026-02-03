@@ -1,9 +1,10 @@
 import { Button } from '@/components/ui/button';
+import MyButton from '@/pages/my components/my-button';
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 import artisan from '@/routes/artisan';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import { create } from '@/actions/App/Http/Controllers/PostController';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -30,12 +31,17 @@ export default function Dashboard({
               Manual Artisan Commands
             </div>
             <div className="flex flex-col gap-4">
-              <Button
-                asChild
-                className="bg-linear-to-b from-sky-300 to-sky-400 to-70% px-4 py-2 text-sm font-semibold text-sky-950 shadow-md ring inset-shadow-2xs ring-sky-500 inset-shadow-white/20 transition text-shadow-2xs text-shadow-sky-300 hover:to-100% dark:ring-sky-500/50"
+              {/* <button
+                onClick={()=>console.log('button clicked')}
+                // asChild
+                className="rounded-md bg-linear-to-b from-sky-300 to-sky-400 to-70% px-4 py-2 text-sm font-semibold text-sky-950 shadow-md ring inset-shadow-2xs ring-sky-500 inset-shadow-white/20 transition text-shadow-2xs text-shadow-sky-300 hover:from-sky-300/80 dark:ring-sky-500/50"
               >
                 <Link href={artisan.optimize()}>artisan optimize</Link>
-              </Button>
+                test
+              </button> */}
+              <MyButton onClick={()=>router.get(artisan.optimize())}>
+                artisan optimize
+              </MyButton>
               <Button
                 asChild
                 variant={'secondary'}
