@@ -42,13 +42,16 @@ export default function Dashboard({
               <MyButton onClick={()=>router.get(artisan.optimize())}>
                 artisan optimize
               </MyButton>
-              <Button
+              {/* <Button
                 asChild
                 variant={'secondary'}
                 className="bg-linear-to-b from-white/10 to-white/20 to-70% px-4 py-2 text-sm font-semibold text-gray-950 shadow-md ring inset-shadow-2xs ring-black/20 inset-shadow-white/10 transition hover:from-white hover:to-white/10 dark:text-white dark:text-shadow-2xs"
               >
                 <Link href={artisan.viewclear()}>artisan view:clear</Link>
-              </Button>
+              </Button> */}
+              <MyButton color='white' onClick={()=>router.get(artisan.viewclear())}>
+                artisan view:clear
+              </MyButton>
             </div>
           </div>
           <div className="flex flex-col rounded-xl border p-6 shadow">
@@ -58,20 +61,20 @@ export default function Dashboard({
             <div className="text-3xl font-semibold text-shadow-lg">
               {postCount}
             </div>
-            <Button
-              asChild
-              className="mt-auto bg-linear-to-b from-sky-300 to-sky-400 to-70% px-4 py-2 text-sm font-semibold text-sky-950 shadow-md ring inset-shadow-2xs ring-sky-500 inset-shadow-white/20 transition text-shadow-2xs text-shadow-sky-300 hover:to-100% dark:ring-sky-500/50"
-            >
-              <Link href={create()}>Create post</Link>
-            </Button>
+            <MyButton className='mt-auto' onClick={()=>create()}>
+              Create post
+            </MyButton>
           </div>
-          <div className="rounded-xl border p-6 shadow">
+          <div className="flex flex-col rounded-xl border p-6 shadow">
             <div className="mb-4 font-medium text-gray-500">
               Number of Users
             </div>
             <div className="text-3xl font-semibold text-shadow-lg">
               {userCount}
             </div>
+            <MyButton className='mt-auto' onClick={()=>console.log('usererer')}>
+              User lists
+            </MyButton>
           </div>
           {/* <div className="rounded-xl bg-blue-500 p-4 flex items-center justify-center text-white font-semibold shadow-xl/20 border-3 border-zinc-500 col-start-1 col-end-3">
             Hello

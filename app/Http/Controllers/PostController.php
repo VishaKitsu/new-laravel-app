@@ -86,7 +86,9 @@ class PostController extends Controller
    */
   public function edit(string $id)
   {
-      //
+    $post = Post::with(['category', 'user'])->findOrFail($id);
+    $categories = Category::all();
+    return Inertia::render('Blog/Edit', ['post' => $post, 'categories' => $categories]);
   }
 
   /**
@@ -114,6 +116,7 @@ class PostController extends Controller
 
     $post->delete();
 
-    return back()->with('success', "Post successfully deleted.");
+    // return back()->with('success', "Post successfully deleted.");
+    return Inertia::flash('flashMessage', "Post successfully deleted.")->back();
   }
 }

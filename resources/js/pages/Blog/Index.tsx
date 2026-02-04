@@ -1,15 +1,17 @@
-import PostController from '@/actions/App/Http/Controllers/PostController';
+import { index, show, create, edit, destroy } from '@/actions/App/Http/Controllers/PostController';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import toast, { Toaster } from 'react-hot-toast';
 import AppHeaderLayout from '@/layouts/app/app-header-layout';
 import { Calendar } from 'lucide-react';
+import MyButton from '../my components/my-button';
+import { useEffect } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Blog',
-    href: PostController.index().url,
+    href: index().url,
   },
 ];
 
@@ -28,6 +30,13 @@ type PostType = {
 };
 
 export default function Index({ posts }: { posts: PostType[] }) {
+
+  const { flash } = usePage();
+  useEffect(()=>{
+    if (flash.flashMessage){
+      toast.success("Post deleted successfully.");
+    }
+  },[flash.flashMessage]);
   return (
     <AppHeaderLayout breadcrumbs={breadcrumbs}>
       <Head title="Blog" />
@@ -35,13 +44,13 @@ export default function Index({ posts }: { posts: PostType[] }) {
       <div className="flex h-full flex-col gap-4 overflow-x-auto p-4">
         <div>
           {/* <TextLink href={PostController.create().url}>Create Post</TextLink> */}
-          <Button asChild>
-            <Link href={PostController.create().url}>Create Post</Link>
-          </Button>
+          <MyButton onClick={()=>router.get(create())}>
+            Create Post
+          </MyButton>
         </div>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
           {posts.map(post => (
-            <Link key={post.id} href={PostController.show(post.slug)} className='md:h-146 lg:h-146 flex flex-col rounded-md border p-4 group transition shadow-md hover:shadow-blue-100 hover:cursor-default'>
+            <Link key={post.id} href={show(post.slug)} className='md:h-146 lg:h-146 flex flex-col rounded-md border p-4 group transition shadow-md hover:shadow-blue-100 hover:cursor-default'>
               <img src={post.thumbnail_url} className='aspect-4/3 object-cover group-hover:opacity-90 transition hover:cursor-pointer' alt="Not available" />
               <div className='flex flex-col flex-1'>
                 <h2 className=' text-2xl mt-4 mb-2 font-semibold tracking-tight text-pretty text-blue-400 hover:cursor-pointer'>{post.title}</h2>
@@ -65,10 +74,32 @@ export default function Index({ posts }: { posts: PostType[] }) {
                   </span>
                   <p className='line-clamp-3'>{post.description}</p>
                 </div>
-                <div className='flex justify-end mt-auto'>
-                  <Button variant={'destructive'} className='cursor-pointer' asChild>
+                <div className='flex justify-end mt-auto gap-2'>
+                  {/* <Button variant={'destructive'} className='cursor-pointer' asChild>
                     <Link href={PostController.destroy(post.id)} onSuccess={()=>toast.success("Post deleted successfully.")}>Delete</Link>
-                  </Button>
+                  </Button> */}
+                  <MyButton 
+                    className='w-20'
+                    color='green' 
+                    onClick={(e)=>{
+                      e.preventDefault();
+                      e.stopPropagation();
+                      router.get(edit(post.id))
+                    }}
+                  >
+                    Edit
+                  </MyButton>
+                  <MyButton 
+                    className='w-20'
+                    color='red' 
+                    onClick={(e)=>{
+                      e.preventDefault();
+                      e.stopPropagation();
+                      router.delete(destroy(post.id))
+                    }}
+                  >
+                    Delete
+                  </MyButton>
                 </div>
               </div>
             </Link>
