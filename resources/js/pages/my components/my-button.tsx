@@ -1,7 +1,7 @@
 import React from 'react'
 
 const colorStyles = {
-  blue: "bg-linear-to-b from-sky-300 to-sky-400 to-70% text-sky-950 ring-sky-500 text-shadow-sky-300 hover:from-sky-300/80 dark:ring-sky-500/50 text-shadow-2xs",
+  blue: "bg-linear-to-b from-sky-300 to-sky-400 to-70% text-sky-950 ring-sky-500 text-shadow-sky-300 hover:from-sky-300/90 hover:to-sky-400/80 dark:ring-sky-500/50 text-shadow-2xs",
   green: "bg-linear-to-b from-green-300 to-green-400 to-70% text-green-950 ring-green-500 text-shadow-green-300 hover:from-green-300/80 dark:ring-green-500/50 text-shadow-2xs",
   red: "bg-linear-to-b from-red-300 to-red-400 to-70% text-red-950 ring-red-500 text-shadow-red-300 hover:from-red-300/80 dark:ring-red-500/50 text-shadow-2xs",
   white: "bg-secondary bg-linear-to-b from-white/10 to-white/20 to-70% text-gray-950 ring-black/20 inset-shadow-white/10 hover:from-white hover:to-white/10 dark:text-white dark:text-shadow-2xs text-shadow-none"

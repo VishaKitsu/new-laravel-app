@@ -19,9 +19,9 @@ use Illuminate\Support\Facades\Storage;
 Route::get('/homer', function () {
   return Inertia::render('Homer');
 })->name('test');
+Route::get('/', [PostController::class, 'index'])->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-  Route::get('/', [PostController::class, 'index'])->name('home');
   Route::get('dashboard', function () {
     $postCount = Post::count();
     $userCount = User::count();

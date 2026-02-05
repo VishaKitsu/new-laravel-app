@@ -77,8 +77,11 @@ class PostController extends Controller
     $comments = Comment::with(['user'])->where('post_id', $post->id)->latest()->get();
     // $post['url'] = Storage::url($post['thumbnail']);
     // $r2url = env('CLOUDFLARE_R2_URL');
+    if (Auth::user()){
+      return Inertia::render('Blog/Show', ['post' => $post, 'comments' => $comments, 'currentUser'=> Auth::user()->name]);
+    }
 
-    return Inertia::render('Blog/Show', ['post' => $post, 'comments' => $comments, 'currentUser'=> Auth::user()->name]);
+    return Inertia::render('Blog/Guest/GuestShow', ['post' => $post, 'comments' => $comments]);
   }
 
   /**

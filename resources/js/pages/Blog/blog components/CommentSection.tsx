@@ -4,6 +4,7 @@ import { useState } from "react";
 import { router, usePage } from "@inertiajs/react";
 import { store, destroy } from "@/actions/App/Http/Controllers/CommentController";
 import toast from 'react-hot-toast';
+import { login } from "@/routes";
 
 type CommentType = {
   id: number;
@@ -13,7 +14,7 @@ type CommentType = {
   user: { name: string };
 };
 
-function CommentSection({ post_id }: { post_id: number }) {
+function CommentSection({ post_id, guest=false }: { post_id: number; guest?: boolean }) {
   const { comments, currentUser } = usePage<{ comments: CommentType[]; currentUser: string }>().props;
   const [comment, setComment] = useState("");
 
@@ -27,6 +28,7 @@ function CommentSection({ post_id }: { post_id: number }) {
         store(),
         {post_id: post_id, comment: comment}, 
         {
+          preserveScroll: true,
           onSuccess: () => {
             toast.success("Comment successfully submited.");
             setComment('');
@@ -56,8 +58,9 @@ function CommentSection({ post_id }: { post_id: number }) {
           <Textarea value={comment} onChange={(e)=>setComment(e.target.value)} placeholder="Write your comment here." />
         </div>
       </div>
-      <div className="flex flex-row-reverse">
-        <Button onClick={handleSubmit}>Submit</Button>
+      <div className="flex flex-row-reverse gap-2">
+        <Button disabled={guest} onClick={handleSubmit}>Submit</Button>
+        {guest && <Button onClick={()=>router.visit(login(), {viewTransition: true})}>Login</Button>}
       </div>
       <div>
         {comments.map(c=>(
