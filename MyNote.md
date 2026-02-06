@@ -291,6 +291,8 @@ In the Vite config, write besides plugins. not in plugins:
 After that in .env file, comment out the APP_URL for later and write in `APP_URL=https://YOURPUBLICURL.sharedwithexpose.com/` and you're done!!
 
 ## How to enable API in laravel
+Maybe run `php artisan install:api` <br>
+
 create `api.php` in `routes` folder. Then in `bootstrap/app.php` add
 ```php
 ->withRouting(

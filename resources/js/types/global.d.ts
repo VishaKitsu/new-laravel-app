@@ -9,6 +9,7 @@ declare module "@inertiajs/core" {
     flashDataType: {
       // toast?: { type: "success" | "error"; message: string };
       flashMessage?: string;
+      tokener?: string;
     };
   }
 }

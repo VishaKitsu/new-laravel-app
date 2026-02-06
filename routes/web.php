@@ -1,15 +1,17 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\CommentController;
-use App\Http\Controllers\ImageController;
-use App\Http\Controllers\PostController;
 use App\Models\Post;
 use App\Models\User;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\ImageController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\CategoryController;
+use Illuminate\Support\Facades\Auth;
 
 // Route::get('/', function () {
 //   return Inertia::render('welcome');
@@ -65,6 +67,22 @@ Route::get('/admin/optimize', function () {
 
     return implode("\n", $output);
 })->name('artisan.optimize');
+
+//Sanctum test
+Route::post('/tokens/create', function (Request $request) {
+  $token = $request->user()->createToken($request->token_name);
+
+  // return ['token' => $token->plainTextToken];
+  return Inertia::flash('tokener', $token->plainTextToken)->back();
+})->name('token.create');
+
+Route::post('/token/delete', function () {
+  if (auth('sanctum')->check()) {
+    Auth::user()->tokens()->delete();
+    return Inertia::flash('flashMessage', "Tokens successfully deleted")->back();
+  }
+  return Inertia::flash('flashMessage', "No Tokens available")->back();
+})->name('token.delete');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
