@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Image;
-use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
 
 class ImageController extends Controller
 {
@@ -33,5 +33,14 @@ class ImageController extends Controller
     $url = Storage::url($path);
 
     return response()->json(['location' => $url]);
+  }
+  public function destroyLeftover()
+  {
+    $images = Image::whereNull('post_id')->where('user_id', Auth::id())->get();
+    foreach ($images as $image){
+      Storage::disk('r2')->delete($image->path);
+      $image->delete();
+    }
+    return response()->json(['status' => 'cleaned']);
   }
 }

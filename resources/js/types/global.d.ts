@@ -7,7 +7,7 @@ declare module "@inertiajs/core" {
       appName: string;
     };
     flashDataType: {
-      // toast?: { type: "success" | "error"; message: string };
+      toast?: { type: "success" | "error"; message: string };
       flashMessage?: string;
       tokener?: string;
     };

@@ -1,4 +1,5 @@
 import { create } from '@/actions/App/Http/Controllers/PostController';
+import { destroy } from '@/routes/images';
 import AppLayout from '@/layouts/app-layout';
 import MyButton from '@/pages/my components/my-button';
 import { dashboard } from '@/routes';
@@ -9,7 +10,7 @@ import token from '@/routes/token';
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { InfoIcon } from 'lucide-react';
+import { InfoIcon, AlertCircleIcon } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -58,12 +59,12 @@ export default function Dashboard({
             </AlertDescription>
           </Alert>
         )}
-        {flash.flashMessage && (
+        {flash.toast && (
           <Alert variant={'destructive'}>
-            <InfoIcon />
-            <AlertTitle>Detetion failed</AlertTitle>
+            {flash.toast.type == "success" ? <InfoIcon /> : <AlertCircleIcon />}
+            <AlertTitle>{flash.toast.type == 'error' ? 'Deletion failed' : 'Deletion successful'}</AlertTitle>
             <AlertDescription>
-              {flash.flashMessage}
+              {flash.toast.message}
             </AlertDescription>
           </Alert>
         )}
@@ -84,6 +85,7 @@ export default function Dashboard({
               </MyButton>
             </div>
           </div>
+
           <div className="flex flex-col rounded-xl border p-6 shadow">
             <div className="mb-4 font-medium text-gray-500">
               Number of Posts
@@ -91,10 +93,11 @@ export default function Dashboard({
             <div className="text-3xl font-semibold text-shadow-lg">
               {postCount}
             </div>
-            <MyButton className="mt-auto" onClick={() => create()}>
+            <MyButton className="mt-auto" onClick={() => router.get(create())}>
               Create post
             </MyButton>
           </div>
+
           <div className="flex flex-col rounded-xl border p-6 shadow">
             <div className="mb-4 font-medium text-gray-500">
               Number of Users
@@ -109,6 +112,7 @@ export default function Dashboard({
               User lists
             </MyButton>
           </div>
+          
           <div className="flex flex-col rounded-xl border p-6 shadow gap-4">
             <div className="text-2xl font-semibold">
               Sanctum token authorizer
@@ -123,8 +127,21 @@ export default function Dashboard({
             <MyButton color='orange' onClick={handleClick}>
               Test API
             </MyButton>
-            <MyButton color='red' onClick={()=>router.post(token.delete())}>
+            <MyButton color='red' onClick={()=>router.post(token.deleteAll())}>
               Delete Token
+            </MyButton>
+          </div>
+
+          <div className="flex flex-col rounded-xl border p-6 shadow gap-4">
+            <div className="text-2xl font-semibold">
+              Delete Leftover Images
+            </div>
+            <MyButton 
+              color='red'
+              className="mt-auto"
+              onClick={() => router.post(destroy())}
+            >
+              Delete
             </MyButton>
           </div>
           {/* <div className="rounded-xl bg-blue-500 p-4 flex items-center justify-center text-white font-semibold shadow-xl/20 border-3 border-zinc-500 col-start-1 col-end-3">

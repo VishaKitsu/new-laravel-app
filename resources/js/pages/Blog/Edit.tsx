@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import PostController from '@/actions/App/Http/Controllers/PostController';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Form } from '@inertiajs/react';
+import { Head, Form, usePage } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,6 +13,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import NewCateDialog from '../my components/NewCateDialog';
 import CategoryCombo from '../my components/CategoryCombo';
 import { Editor } from '@tinymce/tinymce-react';
+import MyButton from '../my components/my-button';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -47,13 +48,15 @@ type CategoryType = {
 
 function Edit({ post, categories }: { post: PostType; categories: CategoryType[] }) {
 
-    const editorRef = useRef<any>(null);
-    const [selectedCate, setSelectedCate] = useState<number>(0);
+  const page = usePage();
+  const editorRef = useRef<any>(null);
+  const [selectedCate, setSelectedCate] = useState<number>(post.category_id);
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
       <Head title="Create Post" />
       <div><Toaster/></div>
       <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
+        <MyButton onClick={()=>console.log(page)}>test props</MyButton>
         <Form 
           {...PostController.store.form()}
           transform={data => ({
@@ -81,7 +84,7 @@ function Edit({ post, categories }: { post: PostType; categories: CategoryType[]
                 <InputError message={errors.title} />
               </div>
 
-              <div className='grid grid-cols-1 lg:grid-cols-2 gap-2'>
+              <div className='grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-2'>
                 <div className='flex flex-col gap-2'>
                   <Label>Category</Label>
                   <div className='flex gap-2'>
@@ -89,6 +92,10 @@ function Edit({ post, categories }: { post: PostType; categories: CategoryType[]
                     <NewCateDialog/>
                   </div>
                   <InputError message={errors.category_id} />
+                </div>
+                <div className='max-h-80 mx-auto'>
+                  <Label>Preview</Label>
+                  <img src={post.thumbnail_url} alt="" />
                 </div>
                 <div className='flex flex-col gap-2'>
                   <Label htmlFor="thumbnail">Thumbnail</Label>
@@ -98,7 +105,7 @@ function Edit({ post, categories }: { post: PostType; categories: CategoryType[]
               </div>
               <div className='grid gap-2'>
                 <Label htmlFor='description'>Description</Label>
-                <Textarea id='description' placeholder='Write your description here' name='description' required />
+                <Textarea defaultValue={post.description} id='description' placeholder='Write your description here' name='description' required />
                 <InputError message={errors.description} />
               </div>
               <div className='grid gap-2'>
@@ -106,7 +113,7 @@ function Edit({ post, categories }: { post: PostType; categories: CategoryType[]
                 <Editor
                   apiKey='chk9svw7bt5sttksx1fgd0h0ecx77lcyg8y97siirdprxirp'
                   onInit={ (_evt, editor) => editorRef.current = editor }
-                  initialValue="<p>Write your blog here.</p>"
+                  initialValue={post.content}
                   init={{
                     height: 500,
                     menubar: true,

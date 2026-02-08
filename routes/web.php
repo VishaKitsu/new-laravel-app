@@ -3,7 +3,6 @@
 use App\Models\Post;
 use App\Models\User;
 use Inertia\Inertia;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
@@ -11,7 +10,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CategoryController;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\SanctumController;
 
 // Route::get('/', function () {
 //   return Inertia::render('welcome');
@@ -46,8 +45,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::resource('blog', PostController::class)->except(['index']);
 Route::resource('cate', CategoryController::class);
 Route::resource('comment', CommentController::class);
-Route::post('/images/upload', [ImageController::class, 'store']);
 
+Route::post('/images/upload', [ImageController::class, 'store'])->name('images.upload');
+Route::post('/images/delete-leftover', [ImageController::class, 'destroyLeftover'])->name('images.destroy');
+
+// Artisan routes
 Route::get('/admin/view-clear', function () {
     Artisan::call('view:clear');
     return Artisan::output();
@@ -69,20 +71,8 @@ Route::get('/admin/optimize', function () {
 })->name('artisan.optimize');
 
 //Sanctum test
-Route::post('/tokens/create', function (Request $request) {
-  $token = $request->user()->createToken($request->token_name);
-
-  // return ['token' => $token->plainTextToken];
-  return Inertia::flash('tokener', $token->plainTextToken)->back();
-})->name('token.create');
-
-Route::post('/token/delete', function () {
-  if (auth('sanctum')->check()) {
-    Auth::user()->tokens()->delete();
-    return Inertia::flash('flashMessage', "Tokens successfully deleted")->back();
-  }
-  return Inertia::flash('flashMessage', "No Tokens available")->back();
-})->name('token.delete');
+Route::post('/token/create', [SanctumController::class, 'create'])->name('token.create');
+Route::post('/token/delete-all', [SanctumController::class, 'deleteAll'])->name('token.delete-all');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

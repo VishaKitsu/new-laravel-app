@@ -13,6 +13,7 @@ import NewCateDialog from '../my components/NewCateDialog';
 import CategoryCombo from '../my components/CategoryCombo';
 import { useRef, useState } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
+import useUnsavedWarning from '@/hooks/use-unsaved-warning';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -32,6 +33,8 @@ type CategoryType = {
 
 export default function Create({ categories } : { categories : CategoryType[] }) {
 
+  const [isDirty, setIsDirty] = useState(false);
+  useUnsavedWarning(isDirty);
   const editorRef = useRef<any>(null);
   // const log = (e: React.MouseEvent<HTMLButtonElement>) => {
   //   e.preventDefault();
@@ -53,7 +56,10 @@ export default function Create({ categories } : { categories : CategoryType[] })
             category_id: selectedCate, 
             content: editorRef.current?.getContent() ?? '',
           })}
-          onSuccess={() => toast.success('Post Created successfully.', { icon: "📰" })}
+          onSuccess={() => {
+            setIsDirty(false);
+            toast.success('Post Created successfully.', { icon: "📰" });
+          }}
           onError={() => toast.error('Oh no something is wrong.')}
           resetOnSuccess
         >
@@ -72,7 +78,7 @@ export default function Create({ categories } : { categories : CategoryType[] })
                 <InputError message={errors.title} />
               </div>
 
-              <div className='grid grid-cols-1 lg:grid-cols-2 gap-2'>
+              <div className='grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-2'>
                 <div className='flex flex-col gap-2'>
                   <Label>Category</Label>
                   <div className='flex gap-2'>
@@ -96,6 +102,7 @@ export default function Create({ categories } : { categories : CategoryType[] })
                 <Label>Content</Label>
                 <Editor
                   apiKey='chk9svw7bt5sttksx1fgd0h0ecx77lcyg8y97siirdprxirp'
+                  onChange={()=>setIsDirty(true)}
                   onInit={ (_evt, editor) => editorRef.current = editor }
                   initialValue="<p>Write your blog here.</p>"
                   init={{
