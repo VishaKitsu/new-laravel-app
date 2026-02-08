@@ -27,11 +27,11 @@ export default function Dashboard({
   userCount: number;
 }) {
 
-  const tokenKey = '4|J5gUxZzehJcImRxb6E1zLxpUK9KwrXamh7q1g2Jo3479406a';
+  const tokenKey = import.meta.env.VITE_SANCTUM_TOKEN;
   const [ tokenName, setTokenName ] = useState('');
   const { flash } = usePage();
   const handleClick = () => {
-    fetch('/api/tokening', {
+    fetch('/api/blog/index', {
       headers: {
         'Authorization': "Bearer " + tokenKey,
         'Accept': 'application/json',
@@ -93,7 +93,7 @@ export default function Dashboard({
             <div className="text-3xl font-semibold text-shadow-lg">
               {postCount}
             </div>
-            <MyButton className="mt-auto" onClick={() => router.get(create())}>
+            <MyButton className="mt-auto" onClick={() => router.visit(create(), { viewTransition: true })}>
               Create post
             </MyButton>
           </div>

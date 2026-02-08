@@ -10,14 +10,17 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import MyButton from "./my-button"
+import { Button } from "@/components/ui/button"
 import { router } from "@inertiajs/react"
 import { destroy } from "@/routes/blog"
 
-export function DeleteAlertDialog({ id }: { id: number }) {
+export function DeleteAlertDialog({ id, className }: { id: number; className?: string }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <MyButton color="red">Delete</MyButton>
+        <MyButton color="red" className={className}>
+          Delete
+        </MyButton>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

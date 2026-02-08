@@ -42,10 +42,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
   })->name('testpage');
 });
 
+// Resource routes
 Route::resource('blog', PostController::class)->except(['index']);
 Route::resource('cate', CategoryController::class);
 Route::resource('comment', CommentController::class);
 
+// Images
 Route::post('/images/upload', [ImageController::class, 'store'])->name('images.upload');
 Route::post('/images/delete-leftover', [ImageController::class, 'destroyLeftover'])->name('images.destroy');
 
@@ -54,7 +56,6 @@ Route::get('/admin/view-clear', function () {
     Artisan::call('view:clear');
     return Artisan::output();
 })->name('artisan.viewclear');
-
 Route::get('/admin/optimize', function () {
     $output = [];
 
@@ -70,7 +71,7 @@ Route::get('/admin/optimize', function () {
     return implode("\n", $output);
 })->name('artisan.optimize');
 
-//Sanctum test
+// Sanctum test
 Route::post('/token/create', [SanctumController::class, 'create'])->name('token.create');
 Route::post('/token/delete-all', [SanctumController::class, 'deleteAll'])->name('token.delete-all');
 

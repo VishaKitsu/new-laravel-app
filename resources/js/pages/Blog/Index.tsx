@@ -6,7 +6,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import AppHeaderLayout from '@/layouts/app/app-header-layout';
 import { Calendar } from 'lucide-react';
 import MyButton from '../my components/my-button';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { DeleteAlertDialog } from '../my components/DeleteAlertDialog';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -56,10 +56,10 @@ export default function Index({ posts }: { posts: PostType[] }) {
         </div>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
           {posts.map(post => (
-            <Link key={post.id} href={show(post.slug)} className='md:h-146 lg:h-146 flex flex-col rounded-md border p-4 group transition shadow-md hover:shadow-blue-100 hover:cursor-default'>
-              <img src={post.thumbnail_url} className='aspect-4/3 object-cover group-hover:opacity-90 transition hover:cursor-pointer' alt="Not available" />
+            <div key={post.id} className='md:h-146 lg:h-146 flex flex-col rounded-md border p-4 group transition shadow-md hover:shadow-blue-100 hover:cursor-default'>
+              <img src={post.thumbnail_url} onClick={()=>router.get(show(post.slug))} className='aspect-4/3 object-cover group-hover:opacity-90 transition hover:cursor-pointer' alt="Not available" />
               <div className='flex flex-col flex-1'>
-                <h2 className=' text-2xl mt-4 mb-2 font-semibold tracking-tight text-pretty text-blue-400 hover:cursor-pointer'>{post.title}</h2>
+                <h2 onClick={()=>router.get(show(post.slug))} className=' text-2xl mt-4 mb-2 font-semibold tracking-tight text-pretty text-sky-400 hover:cursor-pointer'>{post.title}</h2>
                 <hr />
                 <div className='text-gray-600 mt-2 flex flex-col gap-1'>
                   <i className='flex '>
@@ -81,32 +81,17 @@ export default function Index({ posts }: { posts: PostType[] }) {
                   <p className='line-clamp-3'>{post.description}</p>
                 </div>
                 <div className='flex justify-end mt-auto gap-2'>
-                  {/* <DeleteAlertDialog id={post.id} /> */}
                   <MyButton 
                     className='w-20'
                     color='green' 
-                    onClick={(e)=>{
-                      e.preventDefault();
-                      e.stopPropagation();
-                      router.get(edit(post.id))
-                    }}
+                    onClick={()=>router.get(edit(post.id))}
                   >
                     Edit
                   </MyButton>
-                  <MyButton 
-                    className='w-20'
-                    color='red' 
-                    onClick={(e)=>{
-                      e.preventDefault();
-                      e.stopPropagation();
-                      router.delete(destroy(post.id))
-                    }}
-                  >
-                    Delete
-                  </MyButton>
+                  <DeleteAlertDialog id={post.id} className='w-20'/>
                 </div>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       </div>

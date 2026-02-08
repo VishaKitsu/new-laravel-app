@@ -11,8 +11,9 @@ import { LoaderCircle } from 'lucide-react';
 import toast, { Toaster } from 'react-hot-toast';
 import NewCateDialog from '../my components/NewCateDialog';
 import CategoryCombo from '../my components/CategoryCombo';
-import { useRef, useState } from 'react';
+import { ChangeEvent, useRef, useState, useEffect } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
+import PreviewImageDialog from '../my components/PreviewImageDialog';
 import useUnsavedWarning from '@/hooks/use-unsaved-warning';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -33,16 +34,32 @@ type CategoryType = {
 
 export default function Create({ categories } : { categories : CategoryType[] }) {
 
-  const [isDirty, setIsDirty] = useState(false);
-  useUnsavedWarning(isDirty);
   const editorRef = useRef<any>(null);
   // const log = (e: React.MouseEvent<HTMLButtonElement>) => {
-  //   e.preventDefault();
-  //   if (editorRef.current) {
-  //     console.log(editorRef.current.getContent());
-  //   }
-  // };
+    //   e.preventDefault();
+    //   if (editorRef.current) {
+      //     console.log(editorRef.current.getContent());
+      //   }
+      // };
   const [selectedCate, setSelectedCate] = useState<number>(0);
+  const [isDirty, setIsDirty] = useState(false); // for editor
+  const [preview, setPreview] = useState<string | null>(null);
+  useUnsavedWarning(isDirty);
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+
+    if (!file) {
+      setPreview(null);
+      return;
+    };
+
+    setPreview(URL.createObjectURL(file));
+  }
+  useEffect(() => {
+    return () => {
+      if (preview) URL.revokeObjectURL(preview)
+    };
+  }, [preview]);
 
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
@@ -87,10 +104,13 @@ export default function Create({ categories } : { categories : CategoryType[] })
                   </div>
                   <InputError message={errors.category_id} />
                 </div>
-                <div className='flex flex-col gap-2'>
-                  <Label htmlFor="thumbnail">Thumbnail</Label>
-                  <Input id="thumbnail" type="file" name='thumbnail' accept="image/*" />
-                  <InputError message={errors.thumbnail} />
+                <div className='flex gap-2'>
+                  <div className='flex flex-col gap-2'>
+                    <Label htmlFor="thumbnail">Thumbnail</Label>
+                    <Input onChange={handleChange} id="thumbnail" type="file" name='thumbnail' accept="image/*" />
+                    <InputError message={errors.thumbnail} />
+                  </div>
+                  <PreviewImageDialog preview={preview}/> 
                 </div>
               </div>
               <div className='grid gap-2'>
@@ -111,17 +131,17 @@ export default function Create({ categories } : { categories : CategoryType[] })
                     plugins: [
                       'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
                       'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                      'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount', 'paste'
+                      'insertdatetime', 'media', 'table', 'help', 'wordcount', 'paste'
                     ],
                     toolbar: 'undo redo | blocks | ' +
-                      'blockquote |' +
+                      'blockquote ' +
                       'bold italic forecolor | alignleft aligncenter ' +
                       'alignright alignjustify | bullist numlist outdent indent | ' +
                       'image |' +
                       'removeformat | help',
                     content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
                     images_upload_url: `/images/upload`,
-                    images_file_types: 'jpg,svg,webp',
+                    images_file_types: 'jpg,svg,webp,png',
                     
                   }}
                 />

@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect, ChangeEvent } from 'react'
 import PostController from '@/actions/App/Http/Controllers/PostController';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
@@ -14,6 +14,8 @@ import NewCateDialog from '../my components/NewCateDialog';
 import CategoryCombo from '../my components/CategoryCombo';
 import { Editor } from '@tinymce/tinymce-react';
 import MyButton from '../my components/my-button';
+import useUnsavedWarning from '@/hooks/use-unsaved-warning';
+import PreviewImageDialog from '../my components/PreviewImageDialog';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -51,12 +53,30 @@ function Edit({ post, categories }: { post: PostType; categories: CategoryType[]
   const page = usePage();
   const editorRef = useRef<any>(null);
   const [selectedCate, setSelectedCate] = useState<number>(post.category_id);
+  const [isDirty, setIsDirty] = useState(false); // for editor
+  const [preview, setPreview] = useState<string | null>(post.thumbnail_url);
+  useUnsavedWarning(isDirty);
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+
+    if (!file) {
+      setPreview(null);
+      return;
+    };
+
+    setPreview(URL.createObjectURL(file));
+  }
+  useEffect(() => {
+    return () => {
+      if (preview) URL.revokeObjectURL(preview)
+    };
+  }, [preview]);
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
       <Head title="Create Post" />
       <div><Toaster/></div>
       <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-        <MyButton onClick={()=>console.log(page)}>test props</MyButton>
+        {/* <MyButton onClick={()=>console.log(page)}>test props</MyButton> */}
         <Form 
           {...PostController.store.form()}
           transform={data => ({
@@ -64,7 +84,10 @@ function Edit({ post, categories }: { post: PostType; categories: CategoryType[]
             category_id: selectedCate, 
             content: editorRef.current?.getContent() ?? '',
           })}
-          onSuccess={() => toast.success('Post Created successfully.', { icon: "📰" })}
+          onSuccess={() => {
+              setIsDirty(false);
+              toast.success('Post Created successfully.', { icon: "📰" });
+            }}
           onError={() => toast.error('Oh no something is wrong.')}
           resetOnSuccess
         >
@@ -84,7 +107,7 @@ function Edit({ post, categories }: { post: PostType; categories: CategoryType[]
                 <InputError message={errors.title} />
               </div>
 
-              <div className='grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-2'>
+              <div className='grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-2'>
                 <div className='flex flex-col gap-2'>
                   <Label>Category</Label>
                   <div className='flex gap-2'>
@@ -93,25 +116,25 @@ function Edit({ post, categories }: { post: PostType; categories: CategoryType[]
                   </div>
                   <InputError message={errors.category_id} />
                 </div>
-                <div className='max-h-80 mx-auto'>
-                  <Label>Preview</Label>
-                  <img src={post.thumbnail_url} alt="" />
-                </div>
-                <div className='flex flex-col gap-2'>
-                  <Label htmlFor="thumbnail">Thumbnail</Label>
-                  <Input id="thumbnail" type="file" name='thumbnail' accept="image/*" />
-                  <InputError message={errors.thumbnail} />
+                <div className='flex gap-2'>
+                  <div className='flex flex-col gap-2'>
+                    <Label htmlFor="thumbnail">Thumbnail</Label>
+                    <Input onChange={handleChange} id="thumbnail" type="file" name='thumbnail' accept="image/*" />
+                    <InputError message={errors.thumbnail} />
+                  </div>
+                  <PreviewImageDialog preview={preview}/>
                 </div>
               </div>
               <div className='grid gap-2'>
                 <Label htmlFor='description'>Description</Label>
                 <Textarea defaultValue={post.description} id='description' placeholder='Write your description here' name='description' required />
-                <InputError message={errors.description} />
+                <InputError message={errors.description}/>
               </div>
               <div className='grid gap-2'>
                 <Label>Content</Label>
                 <Editor
                   apiKey='chk9svw7bt5sttksx1fgd0h0ecx77lcyg8y97siirdprxirp'
+                  onChange={()=>setIsDirty(true)}
                   onInit={ (_evt, editor) => editorRef.current = editor }
                   initialValue={post.content}
                   init={{
@@ -120,17 +143,17 @@ function Edit({ post, categories }: { post: PostType; categories: CategoryType[]
                     plugins: [
                       'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
                       'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                      'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount', 'paste'
+                      'insertdatetime', 'media', 'table', 'help', 'wordcount', 'paste'
                     ],
                     toolbar: 'undo redo | blocks | ' +
-                      'blockquote |' +
+                      'blockquote ' +
                       'bold italic forecolor | alignleft aligncenter ' +
                       'alignright alignjustify | bullist numlist outdent indent | ' +
                       'image |' +
                       'removeformat | help',
                     content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
                     images_upload_url: `/images/upload`,
-                    images_file_types: 'jpg,svg,webp',
+                    images_file_types: 'jpg,svg,webp,png',
                     
                   }}
                 />
