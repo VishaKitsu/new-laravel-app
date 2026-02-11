@@ -1,6 +1,6 @@
 import { index, show, create, edit, destroy } from '@/actions/App/Http/Controllers/PostController';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link, router, usePage } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import toast, { Toaster } from 'react-hot-toast';
 import AppHeaderLayout from '@/layouts/app/app-header-layout';

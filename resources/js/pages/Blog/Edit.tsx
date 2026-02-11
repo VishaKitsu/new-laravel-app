@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect, ChangeEvent } from 'react'
-import PostController from '@/actions/App/Http/Controllers/PostController';
+import { index, update } from '@/actions/App/Http/Controllers/PostController';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Form, usePage } from '@inertiajs/react';
@@ -20,7 +20,7 @@ import PreviewImageDialog from '../my components/PreviewImageDialog';
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Blog',
-    href: PostController.index().url,
+    href: index().url,
   },
   {
     title: 'Create Post',
@@ -50,7 +50,7 @@ type CategoryType = {
 
 function Edit({ post, categories }: { post: PostType; categories: CategoryType[] }) {
 
-  const page = usePage();
+  const { flash } = usePage();
   const editorRef = useRef<any>(null);
   const [selectedCate, setSelectedCate] = useState<number>(post.category_id);
   const [isDirty, setIsDirty] = useState(false); // for editor
@@ -71,6 +71,9 @@ function Edit({ post, categories }: { post: PostType; categories: CategoryType[]
       if (preview) URL.revokeObjectURL(preview)
     };
   }, [preview]);
+  useEffect(() => {
+    if (flash.flashMessage) toast.success(flash.flashMessage, { icon: "📰" })
+  }, [flash.flashMessage])
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
       <Head title="Create Post" />
@@ -78,16 +81,13 @@ function Edit({ post, categories }: { post: PostType; categories: CategoryType[]
       <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
         {/* <MyButton onClick={()=>console.log(page)}>test props</MyButton> */}
         <Form 
-          {...PostController.store.form()}
+          {...update.form(post.id)}
           transform={data => ({
             ...data, 
             category_id: selectedCate, 
             content: editorRef.current?.getContent() ?? '',
           })}
-          onSuccess={() => {
-              setIsDirty(false);
-              toast.success('Post Created successfully.', { icon: "📰" });
-            }}
+          onSuccess={() => setIsDirty(false)}
           onError={() => toast.error('Oh no something is wrong.')}
           resetOnSuccess
         >
@@ -133,7 +133,7 @@ function Edit({ post, categories }: { post: PostType; categories: CategoryType[]
               <div className='grid gap-2'>
                 <Label>Content</Label>
                 <Editor
-                  apiKey='chk9svw7bt5sttksx1fgd0h0ecx77lcyg8y97siirdprxirp'
+                  apiKey={import.meta.env.VITE_TINYMCE_TOKEN}
                   onChange={()=>setIsDirty(true)}
                   onInit={ (_evt, editor) => editorRef.current = editor }
                   initialValue={post.content}
@@ -143,7 +143,7 @@ function Edit({ post, categories }: { post: PostType; categories: CategoryType[]
                     plugins: [
                       'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
                       'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                      'insertdatetime', 'media', 'table', 'help', 'wordcount', 'paste'
+                      'insertdatetime', 'media', 'table', 'help', 'wordcount'
                     ],
                     toolbar: 'undo redo | blocks | ' +
                       'blockquote ' +
@@ -167,7 +167,7 @@ function Edit({ post, categories }: { post: PostType; categories: CategoryType[]
                 {processing && (
                   <LoaderCircle className="h-4 w-4 animate-spin" />
                 )}
-                Post
+                Edit
               </Button>
             </div>
           </>

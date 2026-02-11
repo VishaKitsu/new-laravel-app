@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -57,7 +58,7 @@ class PostController extends Controller
         $path = 'thumbnails/' . uniqid() . '.' . $file->getClientOriginalExtension();
 
         // Upload to R2
-        Storage::disk('r2')->put($path, $file->get());
+        Storage::put($path, $file->get());
 
         // Save path in DB
         $validated['thumbnail'] = $path;
@@ -102,7 +103,48 @@ class PostController extends Controller
    */
   public function update(Request $request, string $id)
   {
-    return Inertia::flash('flashMessage', 'HEyhye hey zbcx,vbz,mxncvb')->back();
+    $post = Post::findOrFail($id);
+    abort_if($post->user_id !== Auth::id(), 403);
+
+    $validated = $request->validate([
+      'category_id' => 'required|exists:categories,id',
+      'thumbnail' => 'nullable|image',
+      'title' => 'required|string|max:255',
+      'description' => 'required|string',
+      'content' => 'required|string',
+    ]);
+
+    if ($validated['title'] !== $post->title){
+      $validated['slug'] = Post::generateUniqueSlug($validated['title']);
+    }
+
+    DB::transaction(function () use ($request, $post, $validated, $id) {
+      // ---------- Upload to R2 ----------
+      if ($request->hasFile('thumbnail')) {
+        // Generate unique file name
+        $file = $request->file('thumbnail');
+        $path = 'thumbnails/' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+        // Delete old thumbnail
+        if ($post->thumbnail) {
+          Storage::delete($post->thumbnail);
+        }
+
+        // Upload to R2
+        Storage::put($path, $file->get());
+
+        // Save path in DB
+        $validated['thumbnail'] = $path;
+      }
+
+      $post->update($validated);
+
+      Image::where('post_id', null)
+        ->where('user_id', Auth::id())
+        ->update(['post_id' => $id]);
+    });
+
+    return Inertia::flash('flashMessage', 'Post successfully updated')->back();
   }
 
   /**

@@ -121,7 +121,7 @@ export default function Create({ categories } : { categories : CategoryType[] })
               <div className='grid gap-2'>
                 <Label>Content</Label>
                 <Editor
-                  apiKey='chk9svw7bt5sttksx1fgd0h0ecx77lcyg8y97siirdprxirp'
+                  apiKey={import.meta.env.VITE_TINYMCE_TOKEN}
                   onChange={()=>setIsDirty(true)}
                   onInit={ (_evt, editor) => editorRef.current = editor }
                   initialValue="<p>Write your blog here.</p>"
@@ -131,7 +131,7 @@ export default function Create({ categories } : { categories : CategoryType[] })
                     plugins: [
                       'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
                       'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                      'insertdatetime', 'media', 'table', 'help', 'wordcount', 'paste'
+                      'insertdatetime', 'media', 'table', 'help', 'wordcount'
                     ],
                     toolbar: 'undo redo | blocks | ' +
                       'blockquote ' +

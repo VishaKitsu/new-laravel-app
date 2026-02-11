@@ -36,15 +36,16 @@ class Post extends Model
     return $this->hasMany(Image::class);
   }
 
-  public static function generateUniqueSlug($title)
+  public static function generateUniqueSlug($title, $exceptId = null)
   {
     $slug = Str::slug($title);
     $originalSlug = $slug;
 
     $count = 2;
 
-    While(Post::where('slug', $slug)->exists())
-    {
+    while (Post::where('slug', $slug)
+      ->when($exceptId, fn ($q) => $q->where('id', '!=', $exceptId))
+      ->exists()) {
       $slug = $originalSlug . '-' . $count;
       $count++;
     }

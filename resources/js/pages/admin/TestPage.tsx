@@ -46,9 +46,7 @@ export default function TestPage({ myImage, myBMW, myVideo}: { myImage: string; 
   const [text, setText] = useState<string>("");
 
   useEffect(() => {
-    if (flash.flashMessage) {
-      toast.success(flash.flashMessage)
-    }
+    if (flash.flashMessage) toast.success(flash.flashMessage)
   }, [flash.flashMessage]);
   const filteredUsers = useMemo(()=>{
     return users.filter((user) => 

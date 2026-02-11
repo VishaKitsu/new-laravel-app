@@ -6,7 +6,6 @@ use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Inertia\Inertia;
 
 class ImageController extends Controller
 {
@@ -20,7 +19,7 @@ class ImageController extends Controller
     $path = 'blog-images/' . uniqid() . '.' . $file->getClientOriginalExtension();
 
     // Upload to R2
-    Storage::disk('r2')->put($path, $file->get());
+    Storage::put($path, $file->get());
     
     // $path = $request->file('file')->store('blog-images', 'r2');
 
