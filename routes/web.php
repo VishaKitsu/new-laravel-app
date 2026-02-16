@@ -20,6 +20,7 @@ use App\Http\Controllers\SanctumController;
 Route::get('/homer', function () {
   return Inertia::render('Homer');
 })->name('test');
+
 Route::get('/', [PostController::class, 'index'])->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -40,6 +41,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
       'myVideo' => $myVideo,
     ]);
   })->name('testpage');
+
+  // User Index
+  Route::get('/user-index', function () {
+    $users = User::all();
+    return Inertia::render('admin/UserList', [ 'userData' => $users ]);
+  })->name('user.index');
 });
 
 // Resource routes

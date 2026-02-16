@@ -1,8 +1,11 @@
 import { useRef, useState, useEffect, ChangeEvent } from 'react'
-import { index, update } from '@/actions/App/Http/Controllers/PostController';
 import AppLayout from '@/layouts/app-layout';
+import { index, update } from '@/actions/App/Http/Controllers/PostController';
+import { Editor } from '@tinymce/tinymce-react';
 import { type BreadcrumbItem } from '@/types';
+import { type PostType } from './Index';
 import { Head, Form, usePage } from '@inertiajs/react';
+import useUnsavedWarning from '@/hooks/use-unsaved-warning';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,10 +15,8 @@ import { LoaderCircle } from 'lucide-react';
 import toast, { Toaster } from 'react-hot-toast';
 import NewCateDialog from '../my components/NewCateDialog';
 import CategoryCombo from '../my components/CategoryCombo';
-import { Editor } from '@tinymce/tinymce-react';
-import MyButton from '../my components/my-button';
-import useUnsavedWarning from '@/hooks/use-unsaved-warning';
 import PreviewImageDialog from '../my components/PreviewImageDialog';
+import MyButton from '../my components/my-button';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -28,27 +29,28 @@ const breadcrumbs: BreadcrumbItem[] = [
   },
 ];
 
-type PostType = {
-  id: number,
-  user_id: number,
-  category_id: number,
-  thumbnail: string,
-  thumbnail_url: string,
-  title: string,
-  description: string,
-  content: string,
-  created_at: string,
-  slug: string,
-  category: { name: string, },
-  user: { name: string, },
-};
+type EditPostType = Omit<PostType, 'slug' | 'created_at'>;
+// {
+//   id: number,
+//   user_id: number,
+//   category_id: number,
+//   thumbnail: string,
+//   thumbnail_url: string,
+//   title: string,
+//   description: string,
+//   content: string,
+//   created_at: string,
+//   slug: string,
+//   category: { name: string, },
+//   user: { name: string, },
+// };
 
 type CategoryType = {
   id: number,
   name: string,
 };
 
-function Edit({ post, categories }: { post: PostType; categories: CategoryType[] }) {
+function Edit({ post, categories }: { post: EditPostType; categories: CategoryType[] }) {
 
   const { flash } = usePage();
   const editorRef = useRef<any>(null);

@@ -13,9 +13,10 @@ import {
 import { dashboard, testpage } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid, FlaskConical, Newspaper } from 'lucide-react';
+import { BookOpen, Folder, LayoutGrid, FlaskConical, Newspaper, User } from 'lucide-react';
 import AppLogo from './app-logo';
 import PostController from '@/actions/App/Http/Controllers/PostController';
+import user from '@/routes/user';
 
 const mainNavItems: NavItem[] = [
   {
@@ -28,10 +29,15 @@ const mainNavItems: NavItem[] = [
     href: testpage(),
     icon: FlaskConical,
   },
+  // {
+  //   title: 'Home Page',
+  //   href: PostController.index(),
+  //   icon: Newspaper,
+  // }
   {
-    title: 'Home Page',
-    href: PostController.index(),
-    icon: Newspaper,
+    title: 'User Management',
+    href: user.index(),
+    icon: User,
   }
 ];
 

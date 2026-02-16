@@ -1,4 +1,5 @@
 import React from 'react'
+import { Button } from '@headlessui/react'
 
 const colorStyles = {
   blue: "bg-linear-to-b from-sky-300 to-sky-400 to-70% text-sky-950 ring-sky-500 text-shadow-sky-300 hover:from-sky-300/90 hover:to-sky-400/80 dark:ring-sky-500/50 text-shadow-2xs",
@@ -19,12 +20,12 @@ function MyButton({ children, className, color = "blue", ...props }: MyButtonPro
   const baseStyles = "rounded-md px-4 py-2 text-sm font-semibold shadow-md ring inset-shadow-2xs inset-shadow-white/20 transition"
   
   return (
-    <button 
+    <Button 
       className={`${baseStyles} ${colorStyles[color]} ${className}`}
       {...props}
     >
       {children}
-    </button>
+    </Button>
   )
 }
 

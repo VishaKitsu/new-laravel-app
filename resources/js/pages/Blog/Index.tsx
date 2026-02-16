@@ -16,7 +16,7 @@ const breadcrumbs: BreadcrumbItem[] = [
   },
 ];
 
-type PostType = {
+export type PostType = {
   id: number,
   user_id: number,
   category_id: number,
@@ -24,10 +24,11 @@ type PostType = {
   thumbnail_url: string, // from accessor
   title: string,
   description: string,
+  content: string,
   created_at: string,
   slug: string,
-  category: { name: string, },
-  user: { name: string, },
+  category: { name: string },
+  user: { name: string },
 };
 
 export default function Index({ posts }: { posts: PostType[] }) {

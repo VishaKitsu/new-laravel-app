@@ -1,15 +1,16 @@
+import { useState } from 'react';
+import { Head, router, usePage } from '@inertiajs/react';
+import AppLayout from '@/layouts/app-layout';
+import { type BreadcrumbItem } from '@/types';
+import { dashboard } from '@/routes';
 import { create } from '@/actions/App/Http/Controllers/PostController';
 import { destroy } from '@/routes/images';
-import AppLayout from '@/layouts/app-layout';
-import MyButton from '@/pages/my components/my-button';
-import { dashboard } from '@/routes';
 import artisan from '@/routes/artisan';
-import { type BreadcrumbItem } from '@/types';
-import { Head, router, usePage } from '@inertiajs/react';
 import token from '@/routes/token';
-import { Input } from '@/components/ui/input';
-import { useState } from 'react';
+import user from '@/routes/user';
+import MyButton from '@/pages/my components/my-button';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Input } from '@/components/ui/input';
 import { InfoIcon, AlertCircleIcon } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -107,7 +108,7 @@ export default function Dashboard({
             </div>
             <MyButton
               className="mt-auto"
-              onClick={() => console.log('usererer')}
+              onClick={() => router.visit(user.index())}
             >
               User lists
             </MyButton>

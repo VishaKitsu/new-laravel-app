@@ -5,6 +5,7 @@ import { Head } from '@inertiajs/react';
 import { Toaster } from 'react-hot-toast';
 import { AppHeader } from '@/components/app-header';
 import CommentSection from './blog components/CommentSection';
+import { PostType } from './Index';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -16,21 +17,6 @@ const breadcrumbs: BreadcrumbItem[] = [
     href: '#',
   },
 ];
-
-type PostType = {
-  id: number;
-  user_id: number;
-  category_id: number;
-  thumbnail: string;
-  thumbnail_url: string;
-  title: string;
-  description: string;
-  content: string;
-  created_at: string;
-  category: { name: string };
-  user: { name: string };
-  url: string;
-};
 
 export default function Show({ post, }: { post: PostType; }) {
   return (

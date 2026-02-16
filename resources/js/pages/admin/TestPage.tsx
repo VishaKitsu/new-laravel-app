@@ -11,6 +11,15 @@ import toast, { Toaster } from 'react-hot-toast';
 import { Button } from '@/components/ui/button';
 import { Link } from '@inertiajs/react';
 import { update } from '@/routes/blog';
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -72,7 +81,26 @@ export default function TestPage({ myImage, myBMW, myVideo}: { myImage: string; 
         </video>
         <div className='max-w-180 p-4 border rounded-xl'>
           <Input type='text' placeholder='Filter users' className='mb-1' onChange={handleChange} value={text}/>
-          <UserList userData={ text == "" ? users : filteredUsers} />
+          {/* <UserList userData={ text == "" ? users : filteredUsers} /> */}
+          <Table>
+        <TableCaption>A list of all users.</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-25">ID</TableHead>
+            <TableHead>Username</TableHead>
+            <TableHead className='text-right'>Email</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {filteredUsers.map((user) => (
+            <TableRow key={user.id}>
+              <TableCell className="font-medium">{user.id}</TableCell>
+              <TableCell>{user.name}</TableCell>
+              <TableCell className='text-right'>{user.email}</TableCell>
+            </TableRow>            
+          ))}
+        </TableBody>
+      </Table>
         </div>
         <Button onClick={()=>console.log(page)}>test usepage</Button>
         <Button asChild>

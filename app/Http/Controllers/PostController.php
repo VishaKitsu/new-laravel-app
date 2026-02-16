@@ -19,7 +19,16 @@ class PostController extends Controller
    */
   public function index()
   {
-    $posts = Post::with(['category', 'user'])->get();
+    $posts = Post::select([
+      'id', 
+      'user_id', 
+      'category_id', 
+      'thumbnail', 
+      'title', 
+      'description', 
+      'created_at',
+      'slug',
+    ])->with(['category', 'user'])->get();
     if (Auth::user()){
       return Inertia::render('Blog/Index', ['posts' => $posts]);
     }
