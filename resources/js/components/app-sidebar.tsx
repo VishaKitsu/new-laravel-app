@@ -24,24 +24,29 @@ const mainNavItems: NavItem[] = [
     href: dashboard(),
     icon: LayoutGrid,
   },
+  // {
+    //   title: 'Home Page',
+    //   href: PostController.index(),
+    //   icon: Newspaper,
+    // }
+    {
+      title: 'User Management',
+      href: user.index(),
+      icon: User,
+    },
+    {
+      title: 'Post Management',
+      href: '#',
+      icon: Newspaper
+    }
+];
+
+const footerNavItems: NavItem[] = [
   {
     title: 'Test Page',
     href: testpage(),
     icon: FlaskConical,
   },
-  // {
-  //   title: 'Home Page',
-  //   href: PostController.index(),
-  //   icon: Newspaper,
-  // }
-  {
-    title: 'User Management',
-    href: user.index(),
-    icon: User,
-  }
-];
-
-const footerNavItems: NavItem[] = [
   {
     title: 'Repository',
     href: 'https://github.com/laravel/react-starter-kit',

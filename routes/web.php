@@ -27,7 +27,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
   Route::get('dashboard', function () {
     $postCount = Post::count();
     $userCount = User::count();
-    return Inertia::render('Dashboard', ['postCount' => $postCount, 'userCount' => $userCount]);
+    $todayCount = Post::whereDate('created_at', today())->count();
+    return Inertia::render('Dashboard', ['postCount' => $postCount, 'userCount' => $userCount, 'todayCount' => $todayCount]);
   })->name('dashboard');
   Route::get('testpage', function () {
     // $myImage = Storage::disk('r2')->get('strange_cube.jpg');

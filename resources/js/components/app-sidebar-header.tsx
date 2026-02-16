@@ -15,9 +15,13 @@ export function AppSidebarHeader({
       <div className="flex w-full items-center gap-2">
         <SidebarTrigger className="-ml-1" />
         <Breadcrumbs breadcrumbs={breadcrumbs} />
-        <Button variant={'outline'} className="ml-auto" asChild>
+        <Button variant={'outline'} className="ml-auto animate-bounce" asChild>
           <Link href={index.url()}>Home Page</Link>
         </Button>
+        {/* <span className="relative flex size-3 right-4 bottom-3">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75"></span>
+          <span className="relative inline-flex size-3 rounded-full bg-sky-500"></span>
+        </span> */}
       </div>
     </header>
   );

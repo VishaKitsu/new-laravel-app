@@ -23,9 +23,11 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function Dashboard({
   postCount,
   userCount,
+  todayCount,
 }: {
   postCount: number;
   userCount: number;
+  todayCount: number;
 }) {
 
   const tokenKey = import.meta.env.VITE_SANCTUM_TOKEN;
@@ -69,6 +71,8 @@ export default function Dashboard({
             </AlertDescription>
           </Alert>
         )}
+
+        {/* Artisan commands */}
         <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
           <div className="rounded-xl border p-6 shadow">
             <div className="mb-4 text-2xl font-semibold">
@@ -87,18 +91,32 @@ export default function Dashboard({
             </div>
           </div>
 
+          {/* Number of posts */}
           <div className="flex flex-col rounded-xl border p-6 shadow">
-            <div className="mb-4 font-medium text-gray-500">
-              Number of Posts
-            </div>
-            <div className="text-3xl font-semibold text-shadow-lg">
-              {postCount}
+            <div className='flex justify-between'>
+              <div className='flex flex-col'>
+                <div className="mb-4 font-medium text-gray-500">
+                  Number of Posts
+                </div>
+                <div className="text-3xl font-semibold text-shadow-lg">
+                  {postCount}
+                </div>
+              </div>
+              <div>
+                <div className='mb-4 text-sm text-gray-500 pt-1'>
+                  Posts created today
+                </div>
+                <div className='text-3xl font-semibold text-shadow-lg text-end'>
+                  {todayCount}
+                </div>
+              </div>
             </div>
             <MyButton className="mt-auto" onClick={() => router.visit(create(), { viewTransition: true })}>
               Create post
             </MyButton>
           </div>
 
+          {/* Number of Users */}
           <div className="flex flex-col rounded-xl border p-6 shadow">
             <div className="mb-4 font-medium text-gray-500">
               Number of Users
@@ -114,7 +132,8 @@ export default function Dashboard({
             </MyButton>
           </div>
           
-          <div className="flex flex-col rounded-xl border p-6 shadow gap-4">
+          {/* Sanctum token authorizer */}
+          {/* <div className="flex flex-col rounded-xl border p-6 shadow gap-4">
             <div className="text-2xl font-semibold">
               Sanctum token authorizer
             </div>
@@ -131,9 +150,10 @@ export default function Dashboard({
             <MyButton color='red' onClick={()=>router.post(token.deleteAll())}>
               Delete Token
             </MyButton>
-          </div>
+          </div> */}
 
-          <div className="flex flex-col rounded-xl border p-6 shadow gap-4">
+          {/* Delete Leftover Images */}
+          {/* <div className="flex flex-col rounded-xl border p-6 shadow gap-4">
             <div className="text-2xl font-semibold">
               Delete Leftover Images
             </div>
@@ -144,7 +164,7 @@ export default function Dashboard({
             >
               Delete
             </MyButton>
-          </div>
+          </div> */}
           {/* <div className="rounded-xl bg-blue-500 p-4 flex items-center justify-center text-white font-semibold shadow-xl/20 border-3 border-zinc-500 col-start-1 col-end-3">
             Hello
           </div>
